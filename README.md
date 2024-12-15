@@ -47,6 +47,11 @@ AI функции
 > [!NOTE]
 > ### Статика раздается по localhost:{port}/filename
 > ### API имеет глобальный префикс /api
+>
+> > [!NOTE]
+> ### ENV Variables
+> ### SERVER_PORT=8080
+> ###  SERVER_HOST="localhost"
 
 
 ### Установка зависимостей

@@ -2,19 +2,11 @@ import { Module } from '@nestjs/common';
 import { FilesService } from './files.service';
 import { FilesController } from './files.controller';
 import { MulterModule } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
+import { MULTER_CONFIG } from 'src/config';
 
 @Module({
   imports: [
-    MulterModule.register({
-      storage: diskStorage({
-        destination: './uploads',
-        filename: (req, file, cb) => {
-          const filename = `${Date.now()}-${file.originalname}`;
-          cb(null, filename);
-        },
-      }),
-    }),
+    MulterModule.register(MULTER_CONFIG),
   ],
   controllers: [FilesController],
   providers: [FilesService],

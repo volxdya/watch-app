@@ -1,6 +1,7 @@
+import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
 import { diskStorage } from 'multer';
 
-export const MULTER_CONFIG = {
+export const MULTER_CONFIG: MulterOptions = {
   storage: diskStorage({
     destination: './uploads',
     filename: (req, file, cb) => {

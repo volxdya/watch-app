@@ -3,6 +3,7 @@ import {
   Post,
   UseInterceptors,
   UploadedFile,
+  Get,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { FilesService } from './files.service';
@@ -16,4 +17,5 @@ export class FilesController {
   uploadFile(@UploadedFile() file: Express.Multer.File) {
     return this.fileService.handleFileUpload(file);
   }
+
 }

@@ -50,9 +50,7 @@ AI функции
 >
 > > [!NOTE]
 > ### ENV Variables
-> ### SERVER_PORT=8080
-> ###  SERVER_HOST="localhost"
-
+> ### SERVER_PORT={OUR PORT}
 
 ### Установка зависимостей
 

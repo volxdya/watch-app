@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { STATIC_CONFIG } from './';
 import { SequelizeModule } from '@nestjs/sequelize';
+import { UserModel } from 'src/core/user/user.model';
 
 @Module({
   imports: [
@@ -18,6 +19,8 @@ import { SequelizeModule } from '@nestjs/sequelize';
       database: process.env.POSTGRES_DATABASE,
       password: process.env.POSTGRES_PASSWORD,
       username: process.env.POSTGRES_USERNAME,
+      autoLoadModels: true,
+      models: [UserModel]
     }),
   ],
 })

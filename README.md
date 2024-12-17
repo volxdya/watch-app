@@ -50,7 +50,12 @@ AI функции
 >
 > > [!NOTE]
 > ### ENV Variables
-> ### SERVER_PORT={OUR PORT}
+> ### SERVER_PORT
+> ### POSTGRES_HOST
+> ### POSTGRES_PORT
+> ### POSTGRES_USERNAME
+> ### POSTGRES_PASSWORD
+> ### POSTGRES_DATEBASE
 
 ### Установка зависимостей
 

@@ -1,4 +1,6 @@
-export abstract class Service {
+export abstract class Service<T = any> {
+  constructor(private readonly repository: T) {}
+  
   getAll() {
     return 'qwe';
   }
@@ -7,3 +9,4 @@ export abstract class Service {
     return 'test';
   }
 }
+ 

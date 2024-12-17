@@ -3,5 +3,4 @@ import { Service } from '../../abstractions';
 
 @Injectable()
 export class UserService extends Service {
-    
 }

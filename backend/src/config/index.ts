@@ -1,4 +1,4 @@
-export * from './MulterConfig';
-export * from './StaticConfig';
+export * from './multer.config';
+export * from './static.config';
 export * from './config.module';
-export * from './SequalizeConfig';
+export * from './sequalize.config';

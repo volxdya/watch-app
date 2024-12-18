@@ -5,9 +5,7 @@ import { MulterModule } from '@nestjs/platform-express';
 import { MULTER_CONFIG } from 'src/config';
 
 @Module({
-  imports: [
-    MulterModule.register(MULTER_CONFIG),
-  ],
+  imports: [MulterModule.register(MULTER_CONFIG)],
   controllers: [FilesController],
   providers: [FilesService],
 })

@@ -1,4 +1,4 @@
-import { SequelizeModuleOptions } from "@nestjs/sequelize";
+import { SequelizeModuleOptions } from '@nestjs/sequelize';
 
 class SEQUALIZE_CONFIG {
   port: number = Number(process.env.POSTGRES_PORT);

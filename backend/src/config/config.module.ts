@@ -25,12 +25,14 @@ import { APP_GUARD } from '@nestjs/core';
       password: process.env.POSTGRES_PASSWORD,
       username: process.env.POSTGRES_USERNAME,
       autoLoadModels: true,
-      models: [UserModel, VideoModel]
+      models: [UserModel, VideoModel],
     }),
   ],
-  providers: [{
-    provide: APP_GUARD,
-    useClass: ThrottlerGuard
-  }]
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
 export class MyConfigModule {}

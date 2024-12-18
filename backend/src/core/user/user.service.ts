@@ -4,13 +4,6 @@ import { InjectModel } from '@nestjs/sequelize';
 import { UserModel } from './user.model';
 import { CreateUserDto } from './dto/CreateUserDto';
 
-// @Injectable()
-// export class UserService extends Service {
-//     constructor() {
-//         super(UserModel);
-//     }
-// }
-
 @Injectable()
 export class UserService extends Service<CreateUserDto> {
   constructor(

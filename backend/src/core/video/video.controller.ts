@@ -4,7 +4,7 @@ import { VideoService } from './video.service';
 
 @Controller('video')
 export class VideoController extends AController<VideoService> {
-    constructor(private readonly videoService: VideoService) {
-        super(videoService);
-    }
+  constructor(private readonly videoService: VideoService) {
+    super(videoService);
+  }
 }

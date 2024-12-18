@@ -5,6 +5,9 @@ import { STATIC_CONFIG } from './';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { UserModel } from 'src/core/user/user.model';
 import { VideoModel } from 'src/core/video/video.model';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { THROTTLER_CONFIG } from './throttler.config';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -13,6 +16,7 @@ import { VideoModel } from 'src/core/video/video.model';
       isGlobal: true,
     }),
     ServeStaticModule.forRoot(STATIC_CONFIG),
+    ThrottlerModule.forRoot(THROTTLER_CONFIG),
     SequelizeModule.forRoot({
       dialect: 'postgres',
       port: Number(process.env.POSTGRES_PORT),
@@ -24,5 +28,9 @@ import { VideoModel } from 'src/core/video/video.model';
       models: [UserModel, VideoModel]
     }),
   ],
+  providers: [{
+    provide: APP_GUARD,
+    useClass: ThrottlerGuard
+  }]
 })
 export class MyConfigModule {}

@@ -4,6 +4,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { STATIC_CONFIG } from './';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { UserModel } from 'src/core/user/user.model';
+import { VideoModel } from 'src/core/video/video.model';
 
 @Module({
   imports: [
@@ -20,7 +21,7 @@ import { UserModel } from 'src/core/user/user.model';
       password: process.env.POSTGRES_PASSWORD,
       username: process.env.POSTGRES_USERNAME,
       autoLoadModels: true,
-      models: [UserModel]
+      models: [UserModel, VideoModel]
     }),
   ],
 })

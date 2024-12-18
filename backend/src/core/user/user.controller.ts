@@ -7,9 +7,4 @@ export class UserController extends AController<UserService> {
   constructor(private readonly userService: UserService) {
     super(userService);
   }
-
-  @Get('/get_all_users')
-  getAllUsers() {
-    return this.userService.getAllUsers();
-  }
 }

@@ -1,18 +1,25 @@
-import { InjectModel } from '@nestjs/sequelize';
-import { Model } from 'sequelize-typescript';
+import { Dto } from './dto';
 
-// export abstract class Service<T = Model> {}
+export abstract class Service<T = Dto> {
+  repositoty: any;
 
-export abstract class Service {
-  // protected constructor(
-  //   @InjectModel(Model) private readonly repository: typeof Model,
-  // ) {}
-
-  async getAll() {
-    // return this.repository.findAll();
+  constructor(repository: any) {
+    this.repositoty = repository;
   }
 
-  test(): string {
-    return 'test';
+  async getAll() {
+    return this.repositoty.findAll();
+  }
+
+  async create(dto: T) {
+    return this.repositoty.create(dto);
+  }
+
+  async delete(id: number) {
+    return this.repositoty.destroy({ where: { id: id } });
+  }
+
+  async getOne(id: number) {
+    return this.repositoty.findOne({ where: { id: id } });
   }
 }

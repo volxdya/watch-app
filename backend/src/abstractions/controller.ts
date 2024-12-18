@@ -1,5 +1,6 @@
-import { Get } from '@nestjs/common';
+import { Body, Delete, Get, Param, Post } from '@nestjs/common';
 import { Service } from './service';
+import { Dto } from './dto';
 
 export abstract class AController<T extends Service> {
   constructor(private readonly service: T) {}
@@ -9,8 +10,13 @@ export abstract class AController<T extends Service> {
     return this.service.getAll();
   }
 
-  @Get('test')
-  test() {
-    return this.service.test();
+  @Post('create')
+  async create(@Body() dto: Dto) {
+    return this.service.create(dto);
+  }
+
+  @Delete('delete/:id')
+  async delete(@Param('id') id: number) {
+    return this.service.delete(id);
   }
 }

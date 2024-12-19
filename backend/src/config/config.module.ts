@@ -8,6 +8,9 @@ import { VideoModel } from 'src/core/video/video.model';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { THROTTLER_CONFIG } from './throttler.config';
 import { APP_GUARD } from '@nestjs/core';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { GraphQLModule } from '@nestjs/graphql';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -17,6 +20,13 @@ import { APP_GUARD } from '@nestjs/core';
     }),
     ServeStaticModule.forRoot(STATIC_CONFIG),
     ThrottlerModule.forRoot(THROTTLER_CONFIG),
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      playground: true,
+      autoSchemaFile: join(process.cwd(), '../schema.gql'),
+      sortSchema: true,
+      path: '/api/graphql',
+    }),
     SequelizeModule.forRoot({
       dialect: 'postgres',
       port: Number(process.env.POSTGRES_PORT),

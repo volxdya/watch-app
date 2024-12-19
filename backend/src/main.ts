@@ -18,6 +18,7 @@ async function bootstrap() {
 
   await app.listen(PORT, async () => {
     console.log(`server -> ${await app.getUrl()}`);
+    console.log(`graphql playground -> ${await app.getUrl()}/api/graphql`);
   });
 }
 

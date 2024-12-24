@@ -51,8 +51,6 @@ AI функции
 >
 > ### API имеет глобальный префикс /api
 >
-> > [!NOTE]
->
 > ### ENV Variables
 >
 > ### SERVER_PORT

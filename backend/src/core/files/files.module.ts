@@ -8,5 +8,6 @@ import { MULTER_CONFIG } from 'src/config';
   imports: [MulterModule.register(MULTER_CONFIG)],
   controllers: [FilesController],
   providers: [FilesService],
+  exports: [FilesService]
 })
 export class FilesModule {}

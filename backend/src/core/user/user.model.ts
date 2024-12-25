@@ -19,4 +19,14 @@ export class UserModel extends Model<Model, IUser> {
     allowNull: false,
   })
   username: string;
+
+  @Column({
+    type: DataType.STRING,
+  })
+  description: string;
+
+  @Column({
+    type: DataType.STRING,
+  })
+  avatar: string;
 }

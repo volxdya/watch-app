@@ -4,7 +4,6 @@ import { InjectModel } from '@nestjs/sequelize';
 import { UserModel } from './user.model';
 import { CreateUserDto } from './dto/CreateUserDto';
 import { FilesService } from '../files/files.service';
-import { UpdateAvatar } from './dto/UpdateAvatar';
 
 @Injectable()
 export class UserService extends Service<CreateUserDto> {
@@ -15,7 +14,15 @@ export class UserService extends Service<CreateUserDto> {
     super(userRepository);
   }
 
-  uploadAvatar(file: Express.Multer.File) {
-    return this.filesService.handleFileUpload(file);
+  async uploadAvatar(file: Express.Multer.File, userId: number) {
+    const avatarPath = this.filesService
+      .handleFileUpload(file)
+      .filePath.split('/')[1];
+
+    const user: UserModel = await this.getOne(userId);
+
+    user.avatar = avatarPath;
+
+    return user;
   }
 }

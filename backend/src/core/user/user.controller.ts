@@ -1,14 +1,14 @@
 import {
-  Body,
   Controller,
+  Param,
   Post,
+  Put,
+  Query,
   UploadedFile,
-  UseInterceptors,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { AController } from '../../abstractions';
-import { UpdateAvatar } from './dto/UpdateAvatar';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { UploadFiles } from 'src/utils/http/decorators';
 
 @Controller('user')
 export class UserController extends AController<UserService> {
@@ -16,9 +16,12 @@ export class UserController extends AController<UserService> {
     super(userService);
   }
 
-  @Post('updateAvatar')
-  @UseInterceptors(FileInterceptor('file'))
-  uploadFile(@UploadedFile() file: Express.Multer.File) {
-    return this.userService.uploadAvatar(file);
+  @Put('updateAvatar/:userId')
+  @UploadFiles('avatar')
+  uploadFile(
+    @UploadedFile() file: Express.Multer.File,
+    @Param('userId') userId: number,
+  ) {
+    return this.userService.uploadAvatar(file, userId);
   }
 }

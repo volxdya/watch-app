@@ -20,6 +20,6 @@ export abstract class Service<T = Dto> {
   }
 
   async getOne(id: number) {
-    return this.repositoty.findOne({ where: { id: id } });
+    return await this.repositoty.findOne({ where: { id: id } });
   }
 }

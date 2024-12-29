@@ -15,14 +15,16 @@ export class UserService extends Service<CreateUserDto> {
   }
 
   async uploadAvatar(file: Express.Multer.File, userId: number) {
-    const avatarPath = this.filesService
-      .handleFileUpload(file)
-      .filePath.split('/')[1];
+    const avatarPath = this.filesService.handleFileUpload(file).filePath;
 
     const user = await this.getOne(userId);
 
+    if (user.avatar != '') {
+      await this.filesService.deleteFile(user.avatar);
+    }
+
     await user.update({
-      avatar: avatarPath
+      avatar: avatarPath,
     });
 
     user.avatar = avatarPath;

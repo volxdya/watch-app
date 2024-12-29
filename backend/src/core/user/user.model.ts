@@ -27,6 +27,8 @@ export class UserModel extends Model<Model, IUser> {
 
   @Column({
     type: DataType.STRING,
+    allowNull: false,
+    defaultValue: '',
   })
   avatar: string;
 }

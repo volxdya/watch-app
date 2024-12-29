@@ -19,7 +19,11 @@ export class UserService extends Service<CreateUserDto> {
       .handleFileUpload(file)
       .filePath.split('/')[1];
 
-    const user: UserModel = await this.getOne(userId);
+    const user = await this.getOne(userId);
+
+    await user.update({
+      avatar: avatarPath
+    });
 
     user.avatar = avatarPath;
 

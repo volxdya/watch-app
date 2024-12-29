@@ -4,6 +4,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 const uploadDir = path.resolve('./uploads');
+
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }

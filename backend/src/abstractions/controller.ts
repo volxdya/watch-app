@@ -15,6 +15,11 @@ export abstract class AController<T extends Service> {
     return this.service.create(dto);
   }
 
+  @Get('get_one/:id')
+  async getOne(@Param('id') id: number) {
+    return this.service.getOne(id);
+  }
+
   @Delete('delete/:id')
   async delete(@Param('id') id: number) {
     return this.service.delete(id);

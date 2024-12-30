@@ -3,7 +3,6 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-
     const users = await queryInterface.bulkInsert(
       'users',
       [
@@ -40,12 +39,14 @@ module.exports = {
         {
           title: 'Video 2 for user 1',
           userId: user1.id,
+          videoFile: 'test',
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
           title: 'Video 1 for user 2',
           userId: user2.id,
+          videoFile: 'test',
           createdAt: new Date(),
           updatedAt: new Date(),
         },

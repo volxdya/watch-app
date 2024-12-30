@@ -4,7 +4,14 @@ import { InjectModel } from '@nestjs/sequelize';
 import { UserModel } from './user.model';
 import { CreateUserDto } from './dto/CreateUserDto';
 import { FilesService } from '../files/files.service';
+import { ServiceOptions } from 'src/types';
 import { VideoModel } from '../video';
+
+export const userServiceOptions: ServiceOptions = {
+  findAll: {
+    include: [VideoModel],
+  },
+};
 
 @Injectable()
 export class UserService extends Service<CreateUserDto> {
@@ -12,11 +19,7 @@ export class UserService extends Service<CreateUserDto> {
     @InjectModel(UserModel) private readonly userRepository: typeof UserModel,
     private readonly filesService: FilesService,
   ) {
-    super(userRepository, {
-      findAll: {
-        include: null,
-      },
-    });
+    super(userRepository, userServiceOptions);
   }
 
   async uploadAvatar(file: Express.Multer.File, userId: number) {

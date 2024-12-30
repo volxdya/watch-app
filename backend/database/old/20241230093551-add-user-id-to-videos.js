@@ -6,7 +6,7 @@ module.exports = {
     await queryInterface.addColumn('videos', 'userId', {
       type: Sequelize.INTEGER,
       references: {
-        model: 'users', // Указываем имя таблицы в нижнем регистре
+        model: 'users',
         key: 'id',
       },
       onUpdate: 'CASCADE',

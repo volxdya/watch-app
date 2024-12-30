@@ -1,13 +1,5 @@
-import { Includeable } from 'sequelize';
+import { ServiceOptions } from 'src/types';
 import { Dto } from './dto';
-
-interface FindAllOptions {
-  include: Includeable[] | Includeable;
-}
-
-interface ServiceOptions {
-  findAll: FindAllOptions;
-}
 
 export abstract class Service<T = Dto> {
   private repositoty: any;

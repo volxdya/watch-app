@@ -1,4 +1,5 @@
-import { Column, DataType, Model, Table } from 'sequelize-typescript';
+import { Column, DataType, HasMany, Model, Table } from 'sequelize-typescript';
+import { VideoModel } from '../video';
 
 interface IUser {
   username: string;
@@ -31,4 +32,7 @@ export class UserModel extends Model<Model, IUser> {
     defaultValue: '',
   })
   avatar: string;
+
+  @HasMany(() => VideoModel)
+  videos: VideoModel[];
 }

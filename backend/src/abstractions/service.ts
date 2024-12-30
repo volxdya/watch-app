@@ -1,14 +1,25 @@
+import { Includeable } from 'sequelize';
 import { Dto } from './dto';
 
-export abstract class Service<T = Dto> {
-  repositoty: any;
+interface FindAllOptions {
+  include: Includeable[] | Includeable;
+}
 
-  constructor(repository: any) {
+interface ServiceOptions {
+  findAll: FindAllOptions;
+}
+
+export abstract class Service<T = Dto> {
+  private repositoty: any;
+  private options: ServiceOptions;
+
+  constructor(repository: any, options: ServiceOptions) {
     this.repositoty = repository;
+    this.options = options;
   }
 
   async getAll() {
-    return this.repositoty.findAll();
+    return this.repositoty.findAll(this.options.findAll);
   }
 
   async create(dto: T) {

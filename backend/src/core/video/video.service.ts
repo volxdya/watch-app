@@ -3,6 +3,7 @@ import { Service } from 'src/abstractions';
 import { VideoModel } from './video.model';
 import { CreateVideoDto } from './dto/CreateVideoDto';
 import { InjectModel } from '@nestjs/sequelize';
+import { UserModel } from '../user';
 
 @Injectable()
 export class VideoService extends Service<CreateVideoDto> {
@@ -10,6 +11,10 @@ export class VideoService extends Service<CreateVideoDto> {
     @InjectModel(VideoModel)
     private readonly videoRepository: typeof VideoModel,
   ) {
-    super(videoRepository);
+    super(videoRepository, {
+      findAll: {
+        include: [UserModel],
+      },
+    });
   }
 }

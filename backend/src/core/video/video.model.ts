@@ -41,4 +41,10 @@ export class VideoModel extends Model<
 
   @BelongsTo(() => UserModel)
   user: UserModel;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  videoFile: string;
 }

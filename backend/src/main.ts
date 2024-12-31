@@ -16,6 +16,7 @@ async function bootstrap() {
     new ThrottlerExceptionFilter(),
   );
 
+  // happy new year commit
   await app.listen(PORT, async () => {
     console.log(`server -> ${await app.getUrl()}`);
     console.log(`graphql playground -> ${await app.getUrl()}/api/graphql`);

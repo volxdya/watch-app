@@ -27,8 +27,8 @@ export class UserController extends AController<UserService> {
     return this.userService.uploadAvatar(file, userId);
   }
 
-  @Get('find/:username')
-  async qwe(@Param('username') username: string) {
+  @Get('findByUsername/:username')
+  async findByUsername(@Param('username') username: string) {
     return this.userService.otherFind('username', username);
   }
 }

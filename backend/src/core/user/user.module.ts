@@ -11,5 +11,6 @@ import { VideoModel } from '../video';
   imports: [SequelizeModule.forFeature([UserModel, VideoModel]), FilesModule],
   controllers: [UserController],
   providers: [UserService, UserResolver],
+  exports: [UserService]
 })
 export class UserModule {}

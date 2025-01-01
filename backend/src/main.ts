@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { AppModule } from './core/app.module';
 import {
   HttpExceptionFilter,
   ThrottlerExceptionFilter,

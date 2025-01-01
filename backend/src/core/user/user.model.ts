@@ -21,6 +21,13 @@ export class UserModel extends Model<Model, IUser> {
   })
   username: string;
 
+  
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  password: string;
+
   @Column({
     type: DataType.STRING,
     defaultValue: '',

@@ -10,6 +10,7 @@ import {
 import { UserService } from './user.service';
 import { AController } from '../../abstractions';
 import { UploadFiles } from 'src/utils/http/decorators';
+import { UserModel } from '.';
 
 @Controller('user')
 export class UserController extends AController<UserService> {

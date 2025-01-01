@@ -27,6 +27,6 @@ export abstract class Service<T = Dto> {
   }
 
   async otherFind(fieldForFind: string, data: string) {
-    return await this.repositoty.findOne({ where: { fieldForFind: data } });
+    return this.repositoty.findOne({ where: { [fieldForFind]: data } });
   }
 }

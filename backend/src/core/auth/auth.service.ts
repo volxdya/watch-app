@@ -12,9 +12,12 @@ export class AuthService {
   ) {}
 
   async signIn(dto: AuthDto): Promise<{ access_token: string }> {
-    const { id, password } = dto;
+    const { username, password } = dto;
 
-    const user: UserModel = await this.userService.getOne(id);
+    const user: UserModel = await this.userService.otherFind(
+      'username',
+      username,
+    );
 
     if (user?.password !== password) {
       throw new UnauthorizedException('Invalide data');
@@ -24,7 +27,7 @@ export class AuthService {
       id: user.id,
       username: user.username,
       description: user.description,
-      avatar: user.avatar
+      avatar: user.avatar,
     };
 
     return {

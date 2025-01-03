@@ -1,4 +1,5 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { VideoModel } from '../video';
 
 @ObjectType()
 export class User {
@@ -7,4 +8,7 @@ export class User {
 
   @Field()
   username: string;
+
+  @Field()
+  avatar: string;
 }

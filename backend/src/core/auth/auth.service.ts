@@ -23,11 +23,11 @@ export class AuthService {
       throw new UnauthorizedException('Invalide data');
     }
 
-    const payload = {
+    const payload: AuthPayload = {
       id: user.id,
-      username: user.username,
       description: user.description,
       avatar: user.avatar,
+      username: user.username,
     };
 
     return {

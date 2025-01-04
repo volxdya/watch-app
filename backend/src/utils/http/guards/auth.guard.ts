@@ -30,9 +30,9 @@ export class AuthGuard implements CanActivate {
       return true;
     }
 
-    const header = request.headers.authorization;
+    const header: string | undefined = request.headers.authorization;
 
-    function callUnauthorizedExeption() {
+    function callUnauthorizedExeption(message: string) {
       throw new HttpException('Missed token.', HttpStatus.UNAUTHORIZED);
     }
 
@@ -41,24 +41,24 @@ export class AuthGuard implements CanActivate {
       const token: string = header.split(' ')[1];
 
       if (bearer !== 'Bearer' || !token) {
-        callUnauthorizedExeption();
+        callUnauthorizedExeption('Missed token');
       }
 
       const decodedToken: AuthPayload = this.jwtService.decode(token);
 
       if (decodedToken === null) {
-        callUnauthorizedExeption();
+        callUnauthorizedExeption('Invalid token.');
       }
 
-      if (request.method == "PUT" && request.params) {
+      if (request.method == 'PUT' && request.params) {
         if (Number(request.params.userId) !== decodedToken.id) {
-          callUnauthorizedExeption();
+          callUnauthorizedExeption("It's not your token.");
         }
       }
 
       return true;
     } catch (err) {
-      callUnauthorizedExeption();
+      callUnauthorizedExeption('Missed token.');
     }
   }
 }

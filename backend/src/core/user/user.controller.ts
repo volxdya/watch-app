@@ -2,17 +2,13 @@ import {
   Controller,
   Get,
   Param,
-  Post,
   Put,
-  Query,
   UploadedFile,
   UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { AController } from '../../abstractions';
 import { UploadFiles } from 'src/utils/http/decorators';
-import { UserModel } from '.';
-import { ContentTypeGuard } from 'src/utils/http/guards';
 
 @Controller('user')
 export class UserController extends AController<UserService> {

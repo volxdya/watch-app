@@ -1,4 +1,4 @@
-import { Body, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body, Delete, Get, Param, Post, SetMetadata } from '@nestjs/common';
 import { Service } from './service';
 import { Dto } from './dto';
 
@@ -11,6 +11,7 @@ export abstract class AController<T extends Service> {
   }
 
   @Post('create')
+  @SetMetadata('isPublic', true)
   async create(@Body() dto: Dto) {
     return this.service.create(dto);
   }

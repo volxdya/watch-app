@@ -6,7 +6,7 @@ import { DeleteFilesDto } from './dto/DeleteFilesDto';
 @Controller('files')
 export class FilesController {
   constructor(private readonly fileService: FilesService) {}
-
+  
   @Post('upload')
   @UploadFiles('file')
   uploadFile(@UploadedFile() file: Express.Multer.File) {

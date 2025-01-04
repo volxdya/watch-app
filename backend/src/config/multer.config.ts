@@ -12,7 +12,7 @@ if (!fs.existsSync(uploadDir)) {
 
 export const MULTER_CONFIG: MulterOptions = {
   limits: {
-    fileSize: 1000,
+    fileSize: 1000 * 100000,
   },
   fileFilter: (req, file, callback) => {
     const allowedFormats = ['image/jpeg', 'image/png', 'video/mp4'];

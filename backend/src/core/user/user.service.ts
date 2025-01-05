@@ -6,6 +6,7 @@ import { CreateUserDto } from './dto/CreateUserDto';
 import { FilesService } from '../files/files.service';
 import { ServiceOptions } from 'src/types';
 import { VideoModel } from '../video';
+import * as bcrypt from 'bcrypt';
 
 export const userServiceOptions: ServiceOptions = {
   findAll: {
@@ -22,12 +23,25 @@ export class UserService extends Service<CreateUserDto> {
     super(userRepository, userServiceOptions);
   }
 
+  async register(dto: CreateUserDto) {
+    const user = await this.create(dto);
+    const hash: string = bcrypt.hashSync(user.password, 10);
+
+    await user.update({
+      password: hash,
+    });
+
+    user.password = hash;
+
+    return user;
+  }
+
   async uploadAvatar(file: Express.Multer.File, userId: number) {
     const avatarPath = this.filesService.handleFileUpload(file).filePath;
 
     const user = await this.getOne(userId);
 
-    if (user.avatar != '') {
+    if (user.avatar !== '') {
       await this.filesService.deleteFile(user.avatar);
     }
 
@@ -39,5 +53,4 @@ export class UserService extends Service<CreateUserDto> {
 
     return user;
   }
-
 }

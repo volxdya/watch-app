@@ -47,4 +47,9 @@ export class VideoModel extends Model<
     allowNull: true,
   })
   videoFile: string;
+
+  @Column({
+    type: DataType.STRING,
+  })
+  description: string;
 }

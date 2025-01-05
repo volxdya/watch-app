@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Service } from 'src/abstractions';
 import { VideoModel } from './video.model';
 import { CreateVideoDto } from './dto/CreateVideoDto';
@@ -23,13 +23,19 @@ export class VideoService extends Service<CreateVideoDto> {
     super(videoRepository, videoServiceOptions);
   }
 
-  // Доработать
-  async uploadVideo(dto: CreateVideoDto, file: Express.Multer.File) {
+  async uploadVideo(videoId: number, file: Express.Multer.File) {
+    const video = await this.getOne(videoId);
     const videoPath: string = this.filesService.handleFileUpload(file).filePath;
 
-    const newDto = { ...dto, videoPath };
+    // TODO: Убрать это в Guards
+    if (video === null) {
+      await this.filesService.deleteFile(videoPath);
+      throw new HttpException("Video doesn't exists", HttpStatus.BAD_REQUEST);
+    }
 
-    const video = await this.create(newDto);
+    await video.update({
+      videoFile: videoPath,
+    });
 
     video.videoFile = videoPath;
 

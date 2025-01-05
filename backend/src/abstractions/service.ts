@@ -23,7 +23,8 @@ export abstract class Service<T = Dto> {
   }
 
   async getOne(id: number) {
-    return await this.repositoty.findOne({ where: { id: id } });
+    const entity = await this.repositoty.findOne({ where: { id: id } });
+    return entity;
   }
 
   async otherFind(fieldForFind: string, data: string) {

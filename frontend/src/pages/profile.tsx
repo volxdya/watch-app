@@ -1,12 +1,7 @@
-import { ChevronDownIcon } from '@/components/icons';
 import DefaultLayout from '@/layouts/default';
+import VideoCard from '@/shared/VideoCard';
 import {
   Button,
-  ButtonGroup,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
   Modal,
   ModalBody,
   ModalContent,
@@ -15,35 +10,15 @@ import {
   useDisclosure,
   User,
 } from '@nextui-org/react';
-import React from 'react';
+
+let arr: number[] = new Array(25).fill(1);
 
 export default function ProfilePage() {
-  const [selectedOption, setSelectedOption] = React.useState(
-    new Set(['merge']),
-  );
-
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleOpen = () => {
     onOpen();
   };
-
-  const descriptionsMap = {
-    merge:
-      'All commits from the source branch are added to the destination branch via a merge commit.',
-    squash:
-      'All commits from the source branch are added to the destination branch as a single commit.',
-    rebase:
-      'All commits from the source branch are added to the destination branch individually.',
-  };
-
-  const labelsMap = {
-    merge: 'Create a merge commit',
-    squash: 'Squash and merge',
-    rebase: 'Rebase and merge',
-  };
-
-  const selectedOptionValue = Array.from(selectedOption)[0];
 
   return (
     <DefaultLayout>
@@ -99,40 +74,22 @@ export default function ProfilePage() {
           </ModalContent>
         </Modal>
 
-        <ButtonGroup variant="flat">
-          <Button>{labelsMap[selectedOptionValue]}</Button>
-          <Dropdown placement="bottom-end">
-            <DropdownTrigger>
-              <Button isIconOnly>
-                <ChevronDownIcon />
-              </Button>
-            </DropdownTrigger>
-            <DropdownMenu
-              disallowEmptySelection
-              aria-label="Merge options"
-              className="max-w-[300px]"
-              selectedKeys={selectedOption}
-              selectionMode="single"
-              onSelectionChange={setSelectedOption}
-            >
-              <DropdownItem key="merge" description={descriptionsMap['merge']}>
-                {labelsMap['merge']}
-              </DropdownItem>
-              <DropdownItem
-                key="squash"
-                description={descriptionsMap['squash']}
-              >
-                {labelsMap['squash']}
-              </DropdownItem>
-              <DropdownItem
-                key="rebase"
-                description={descriptionsMap['rebase']}
-              >
-                {labelsMap['rebase']}
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-        </ButtonGroup>
+        <hr className="w-96" />
+
+        <div className="flex gap-12 flex-wrap justify-center mt-4">
+          {arr.map(() => {
+            return (
+              <VideoCard
+                w={96}
+                h={250}
+                title="Your checklist for better sleep"
+                preview="https://nextui.org/images/card-example-5.jpeg"
+                channel="Good channel!"
+                avatarChannel="https://nextui.org/images/breathing-app-icon.jpeg"
+              />
+            );
+          })}
+        </div>
       </section>
     </DefaultLayout>
   );

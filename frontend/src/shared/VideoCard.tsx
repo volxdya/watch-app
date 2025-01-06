@@ -11,16 +11,21 @@ interface Props {
   avatarChannel: string;
 }
 
-export default function VideoCard({ w, h, title, preview, channel, avatarChannel }: Props) {
+export default function VideoCard({
+  w,
+  h,
+  title,
+  preview,
+  channel,
+  avatarChannel,
+}: Props) {
   return (
     <Card
       isFooterBlurred
-      className={`w-${w} h-[${h}px] col-span-12 sm:col-span-7 flex`}
+      className={`w-${w} h-[${h}px] col-span-12 sm:col-span-7 flex cursor-pointer hover:scale-[105]`}
     >
       <CardHeader className="absolute z-10 top-1 flex-col items-start">
-        <h4 className="text-white/90 font-medium text-xl">
-          {title}
-        </h4>
+        <h4 className="text-white/90 font-medium text-xl">{title}</h4>
       </CardHeader>
       <Image
         removeWrapper

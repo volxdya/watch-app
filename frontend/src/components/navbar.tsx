@@ -17,7 +17,6 @@ import { siteConfig } from '@/config/site';
 import { ThemeSwitch } from '@/components/theme-switch';
 import { GithubIcon, DiscordIcon, SearchIcon } from '@/components/icons';
 import { Logo } from '@/components/icons';
-import { Avatar } from '@nextui-org/avatar';
 import {
   Dropdown,
   DropdownTrigger,

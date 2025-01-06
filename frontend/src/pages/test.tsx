@@ -1,4 +1,4 @@
-import { title, subtitle } from '@/components/primitives';
+import { title } from '@/components/primitives';
 import DefaultLayout from '@/layouts/default';
 import { Button } from '@nextui-org/button';
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from '@nextui-org/dropdown';

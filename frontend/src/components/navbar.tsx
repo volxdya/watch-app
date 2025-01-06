@@ -109,8 +109,18 @@ export const Navbar = () => {
               </DropdownTrigger>
               <DropdownMenu aria-label="User Actions" variant="flat">
                 <DropdownItem key="profile" className="h-14 gap-2">
-                  <p className="font-bold">Signed in as</p>
-                  <p className="font-bold">@tonyreichert</p>
+                  <Link
+                    href="/profile"
+                    className={clsx(
+                      linkStyles({ color: 'foreground' }),
+                      'data-[active=true]:text-primary data-[active=true]:font-medium',
+                    )}
+                  >
+                    <div>
+                      <p className="font-bold">Signed in as</p>
+                      <p className="font-bold">@tonyreichert</p>
+                    </div>
+                  </Link>
                 </DropdownItem>
                 <DropdownItem key="settings">My Settings</DropdownItem>
                 <DropdownItem key="team_settings">Team Settings</DropdownItem>

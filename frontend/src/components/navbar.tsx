@@ -15,7 +15,13 @@ import clsx from 'clsx';
 
 import { siteConfig } from '@/config/site';
 import { ThemeSwitch } from '@/components/theme-switch';
-import { GithubIcon, DiscordIcon, SearchIcon } from '@/components/icons';
+import {
+  GithubIcon,
+  DiscordIcon,
+  SearchIcon,
+  LockIcon,
+  MailIcon,
+} from '@/components/icons';
 import { Logo } from '@/components/icons';
 import {
   Dropdown,
@@ -23,9 +29,46 @@ import {
   DropdownMenu,
   DropdownItem,
 } from '@nextui-org/dropdown';
-import { User } from '@nextui-org/react';
+import {
+  Button,
+  Checkbox,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  useDisclosure,
+  User,
+} from '@nextui-org/react';
+import { getItem, removeItem, setItem } from '@/utils/localstorage';
+import { useState } from 'react';
+import { onChange } from '@/utils/onChange';
+import { postRequest } from '@/utils/request';
 
 export const Navbar = () => {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+  // TODO: Отрефакторить в один компонент и в один стейт!
+  const [loginValue, setLoginValue] = useState('');
+  const [passwordValue, setPasswordValue] = useState('');
+
+  async function login() {
+    const request = await postRequest('auth', 'signIn', {
+      username: loginValue,
+      password: passwordValue,
+    });
+
+    if (request.data.access_token) {
+      setItem('token', request.data.access_token);
+      window.location.reload();
+    }
+  }
+
+  function logOut() {
+    removeItem('token');
+    window.location.reload();
+  }
+
   const searchInput = (
     <Input
       aria-label="Search"
@@ -94,47 +137,125 @@ export const Navbar = () => {
           <ThemeSwitch />
 
           <div className="flex gap-3 items-center">
-            <Dropdown placement="bottom-start">
-              <DropdownTrigger>
-                <User
-                  as="button"
-                  avatarProps={{
-                    isBordered: true,
-                    src: 'https://i.pravatar.cc/150?u=a042581f4e29026024d',
-                  }}
-                  className="transition-transform"
-                  description="@tonyreichert"
-                  name="Tony Reichert"
-                />
-              </DropdownTrigger>
-              <DropdownMenu aria-label="User Actions" variant="flat">
-                <DropdownItem key="profile" className="h-14 gap-2">
-                  <Link
-                    href="/profile"
-                    className={clsx(
-                      linkStyles({ color: 'foreground' }),
-                      'data-[active=true]:text-primary data-[active=true]:font-medium',
+            {getItem('token') ? (
+              <Dropdown placement="bottom-start">
+                <DropdownTrigger>
+                  <User
+                    as="button"
+                    avatarProps={{
+                      isBordered: true,
+                      src: 'https://i.pravatar.cc/150?u=a042581f4e29026024d',
+                    }}
+                    className="transition-transform"
+                    description="@tonyreichert"
+                    name="Tony Reichert"
+                  />
+                </DropdownTrigger>
+                <DropdownMenu aria-label="User Actions" variant="flat">
+                  <DropdownItem key="profile" className="h-14 gap-2">
+                    <Link
+                      href="/profile"
+                      className={clsx(
+                        linkStyles({ color: 'foreground' }),
+                        'data-[active=true]:text-primary data-[active=true]:font-medium',
+                      )}
+                    >
+                      <div>
+                        <p className="font-bold">Signed in as</p>
+                        <p className="font-bold">@tonyreichert</p>
+                      </div>
+                    </Link>
+                  </DropdownItem>
+                  <DropdownItem key="settings">My Settings</DropdownItem>
+                  <DropdownItem key="team_settings">Team Settings</DropdownItem>
+                  <DropdownItem key="analytics">Analytics</DropdownItem>
+                  <DropdownItem key="system">System</DropdownItem>
+                  <DropdownItem key="configurations">
+                    Configurations
+                  </DropdownItem>
+                  <DropdownItem key="help_and_feedback">
+                    Help & Feedback
+                  </DropdownItem>
+                  <DropdownItem key="logout" color="danger" onPress={logOut}>
+                    Log Out
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+            ) : (
+              <>
+                <Button color="primary" onPress={onOpen}>
+                  Войти
+                </Button>
+                <Modal
+                  isOpen={isOpen}
+                  placement="top-center"
+                  onOpenChange={onOpenChange}
+                  backdrop="blur"
+                >
+                  <ModalContent>
+                    {(onClose) => (
+                      <>
+                        <ModalHeader className="flex flex-col gap-1">
+                          Log in
+                        </ModalHeader>
+                        <ModalBody>
+                          <Input
+                            endContent={
+                              <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                            }
+                            label="Username"
+                            placeholder="Enter your username"
+                            variant="bordered"
+                            value={loginValue}
+                            onChange={onChange(setLoginValue)}
+                          />
+                          <Input
+                            endContent={
+                              <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                            }
+                            label="Password"
+                            placeholder="Enter your password"
+                            type="password"
+                            variant="bordered"
+                            value={passwordValue}
+                            onChange={onChange(setPasswordValue)}
+                          />
+                          <div className="flex py-2 px-1 justify-between">
+                            <Checkbox
+                              classNames={{
+                                label: 'text-small',
+                              }}
+                            >
+                              Remember me
+                            </Checkbox>
+                            <div className="flex flex-col">
+                              <Link color="primary" href="#" size="sm">
+                                Register
+                              </Link>
+                              <Link color="primary" href="#" size="sm">
+                                Forgot password?
+                              </Link>
+                            </div>
+                          </div>
+                        </ModalBody>
+                        <ModalFooter>
+                          <Button
+                            color="danger"
+                            variant="flat"
+                            onPress={onClose}
+                          >
+                            Close
+                          </Button>
+                          <Button color="primary" onPress={login}>
+                            Sign in
+                          </Button>
+                        </ModalFooter>
+                      </>
                     )}
-                  >
-                    <div>
-                      <p className="font-bold">Signed in as</p>
-                      <p className="font-bold">@tonyreichert</p>
-                    </div>
-                  </Link>
-                </DropdownItem>
-                <DropdownItem key="settings">My Settings</DropdownItem>
-                <DropdownItem key="team_settings">Team Settings</DropdownItem>
-                <DropdownItem key="analytics">Analytics</DropdownItem>
-                <DropdownItem key="system">System</DropdownItem>
-                <DropdownItem key="configurations">Configurations</DropdownItem>
-                <DropdownItem key="help_and_feedback">
-                  Help & Feedback
-                </DropdownItem>
-                <DropdownItem key="logout" color="danger">
-                  Log Out
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
+                  </ModalContent>
+                </Modal>
+              </>
+            )}
           </div>
         </NavbarItem>
       </NavbarContent>

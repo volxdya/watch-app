@@ -53,4 +53,8 @@ export class UserService extends Service<CreateUserDto> {
 
     return user;
   }
+
+  async test() {
+    const users = await this.userRepository.findAll({where: {id: 1}, limit: 1, })
+  }
 }

@@ -18,6 +18,12 @@ export class AuthService {
       dto.username,
     );
 
+    if (!user) {
+      throw new UnauthorizedException({
+        message: 'Invalid username or password',
+      });
+    }
+
     const isValidate: boolean = await bcrypt.compare(
       dto.password,
       user.password,

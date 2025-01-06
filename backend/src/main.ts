@@ -11,6 +11,8 @@ async function bootstrap() {
   const PORT: number = Number(process.env.SERVER_PORT) ?? 1234;
 
   const app = await NestFactory.create(AppModule);
+  app.enableCors();
+
   app.setGlobalPrefix('api');
 
   app.useGlobalFilters(

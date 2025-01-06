@@ -1,8 +1,8 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from 'react-router-dom';
 
-import IndexPage from "@/pages/index";
-import TestPage from "@/pages/test";
-import ProfilePage from "./pages/profile";
+import IndexPage from '@/pages/index';
+import TestPage from '@/pages/test';
+import ProfilePage from './pages/profile';
 
 function App() {
   return (

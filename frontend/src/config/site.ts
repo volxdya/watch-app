@@ -1,3 +1,7 @@
+import axios from 'axios';
+
+axios.defaults.baseURL = 'http://localhost:8080/api';
+
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {

@@ -11,6 +11,9 @@ export const videoServiceOptions: ServiceOptions = {
   findAll: {
     include: [UserModel],
   },
+  otherFind: {
+    include: null,
+  },
 };
 
 @Injectable()

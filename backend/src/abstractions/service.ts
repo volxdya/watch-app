@@ -28,6 +28,9 @@ export abstract class Service<T = Dto> {
   }
 
   async otherFind(fieldForFind: string, data: string) {
-    return this.repositoty.findOne({ where: { [fieldForFind]: data } });
+    return this.repositoty.findOne({
+      where: { [fieldForFind]: data },
+      include: this.options.otherFind.include,
+    });
   }
 }

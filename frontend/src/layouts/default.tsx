@@ -1,3 +1,4 @@
+import Footer from '@/components/footer';
 import { Navbar } from '@/components/navbar';
 
 export default function DefaultLayout({
@@ -8,12 +9,8 @@ export default function DefaultLayout({
   return (
     <div className="relative flex flex-col h-screen">
       <Navbar />
-      <main className="mx-auto max-w-12xl px-6 flex-grow pt-8">
-        {children}
-      </main>
-      <footer className="w-full flex items-center justify-center py-3">
-        © Watch 2025
-      </footer>
+      <main className="mx-auto max-w-12xl px-6 flex-grow pt-8">{children}</main>
+      <Footer />
     </div>
   );
 }

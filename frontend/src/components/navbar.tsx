@@ -40,17 +40,22 @@ import {
   useDisclosure,
   User,
 } from '@nextui-org/react';
-import { getItem, removeItem, setItem } from '@/utils/localstorage';
 import { useState } from 'react';
 import { onChange } from '@/utils/onChange';
 import { postRequest } from '@/utils/request';
+import { setItem, getItem } from '@/utils/localStorage';
+import { observer } from 'mobx-react-lite';
+import user from '@/store/user';
+import { logOut } from '@/utils/logOut';
 
-export const Navbar = () => {
+export const Navbar = observer(() => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   // TODO: Отрефакторить в один компонент и в один стейт!
   const [loginValue, setLoginValue] = useState('');
   const [passwordValue, setPasswordValue] = useState('');
+
+  const userData = user.userData;
 
   async function login() {
     const request = await postRequest('auth', 'signIn', {
@@ -62,11 +67,6 @@ export const Navbar = () => {
       setItem('token', request.data.access_token);
       window.location.reload();
     }
-  }
-
-  function logOut() {
-    removeItem('token');
-    window.location.reload();
   }
 
   const searchInput = (
@@ -147,14 +147,14 @@ export const Navbar = () => {
                       src: 'https://i.pravatar.cc/150?u=a042581f4e29026024d',
                     }}
                     className="transition-transform"
-                    description="@tonyreichert"
-                    name="Tony Reichert"
+                    description={`@${userData.username}`}
+                    name={userData.username}
                   />
                 </DropdownTrigger>
                 <DropdownMenu aria-label="User Actions" variant="flat">
                   <DropdownItem key="profile" className="h-14 gap-2">
                     <Link
-                      href="/profile"
+                      href={`/profile/${userData.username}`}
                       className={clsx(
                         linkStyles({ color: 'foreground' }),
                         'data-[active=true]:text-primary data-[active=true]:font-medium',
@@ -162,7 +162,7 @@ export const Navbar = () => {
                     >
                       <div>
                         <p className="font-bold">Signed in as</p>
-                        <p className="font-bold">@tonyreichert</p>
+                        <p className="font-bold">@{userData.username}</p>
                       </div>
                     </Link>
                   </DropdownItem>
@@ -292,4 +292,4 @@ export const Navbar = () => {
       </NavbarMenu>
     </NextUINavbar>
   );
-};
+});

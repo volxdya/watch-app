@@ -12,6 +12,9 @@ export const userServiceOptions: ServiceOptions = {
   findAll: {
     include: [VideoModel],
   },
+  otherFind: {
+    include: [VideoModel],
+  },
 };
 
 @Injectable()
@@ -55,6 +58,9 @@ export class UserService extends Service<CreateUserDto> {
   }
 
   async test() {
-    const users = await this.userRepository.findAll({where: {id: 1}, limit: 1, })
+    const users = await this.userRepository.findAll({
+      where: { id: 1 },
+      limit: 1,
+    });
   }
 }

@@ -40,7 +40,7 @@ import {
   useDisclosure,
   User,
 } from '@nextui-org/react';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { onChange } from '@/utils/onChange';
 import { postRequest } from '@/utils/request';
 import { setItem, getItem } from '@/utils/localStorage';
@@ -55,8 +55,18 @@ export const Navbar = observer(() => {
   const [loginValue, setLoginValue] = useState('');
   const [passwordValue, setPasswordValue] = useState('');
 
+  const [isSignIn, setIsSignIn] = useState(false);
+
+  const usernameRef = useRef(null);
+  const passwordRef = useRef(null);
+
   const userData = user.userData;
 
+  function handleChangeIsSignIn() {
+    setIsSignIn(!isSignIn);
+  }
+
+  // TODO вынести эти функции
   async function login() {
     const request = await postRequest('auth', 'signIn', {
       username: loginValue,
@@ -66,6 +76,32 @@ export const Navbar = observer(() => {
     if (request.data.access_token) {
       setItem('token', request.data.access_token);
       window.location.reload();
+    }
+  }
+
+  async function register() {
+    await postRequest('user', 'register', {
+      username: loginValue,
+      password: passwordValue,
+    }).then(() => {
+      setLoginValue('');
+      setPasswordValue('');
+      handleChangeIsSignIn();
+      usernameRef.current.focus();
+    });
+  }
+
+  // TODO: сделать как минимум рабочей логику фокуса, обработать ошибки, как максимум - сделать более разумный код, пока что этот компонент полностью - шлак
+  function handleFocus() {
+    usernameRef.current.blur();
+    passwordRef.current.focus();
+  }
+
+  function onEnter(event: KeyboardEvent) {
+    console.log(event.key);
+
+    if (event.key === 'Enter') {
+      handleFocus();
     }
   }
 
@@ -196,7 +232,7 @@ export const Navbar = observer(() => {
                     {(onClose) => (
                       <>
                         <ModalHeader className="flex flex-col gap-1">
-                          Log in
+                          {isSignIn ? <p>Register</p> : <p>Sign in</p>}
                         </ModalHeader>
                         <ModalBody>
                           <Input
@@ -208,6 +244,7 @@ export const Navbar = observer(() => {
                             variant="bordered"
                             value={loginValue}
                             onChange={onChange(setLoginValue)}
+                            ref={usernameRef}
                           />
                           <Input
                             endContent={
@@ -219,6 +256,7 @@ export const Navbar = observer(() => {
                             variant="bordered"
                             value={passwordValue}
                             onChange={onChange(setPasswordValue)}
+                            ref={passwordRef}
                           />
                           <div className="flex py-2 px-1 justify-between">
                             <Checkbox
@@ -229,12 +267,30 @@ export const Navbar = observer(() => {
                               Remember me
                             </Checkbox>
                             <div className="flex flex-col">
-                              <Link color="primary" href="#" size="sm">
-                                Register
-                              </Link>
-                              <Link color="primary" href="#" size="sm">
-                                Forgot password?
-                              </Link>
+                              {!isSignIn ? (
+                                <>
+                                  <Link
+                                    color="primary"
+                                    href="#"
+                                    size="sm"
+                                    onPress={handleChangeIsSignIn}
+                                  >
+                                    Register
+                                  </Link>
+                                  <Link color="primary" href="#" size="sm">
+                                    Forgot password?
+                                  </Link>
+                                </>
+                              ) : (
+                                <Link
+                                  color="primary"
+                                  href="#"
+                                  size="sm"
+                                  onPress={handleChangeIsSignIn}
+                                >
+                                  Sign in
+                                </Link>
+                              )}
                             </div>
                           </div>
                         </ModalBody>
@@ -246,9 +302,15 @@ export const Navbar = observer(() => {
                           >
                             Close
                           </Button>
-                          <Button color="primary" onPress={login}>
-                            Sign in
-                          </Button>
+                          {!isSignIn ? (
+                            <Button color="primary" onPress={login}>
+                              Sign in
+                            </Button>
+                          ) : (
+                            <Button color="primary" onPress={register}>
+                              Regigser
+                            </Button>
+                          )}
                         </ModalFooter>
                       </>
                     )}

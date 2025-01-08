@@ -25,7 +25,7 @@ export abstract class Service<T = Dto> {
   async getOne(id: number) {
     const entity = await this.repositoty.findOne({ where: { id: id } });
     return entity;
-  }
+  } 
 
   async otherFind(fieldForFind: string, data: string) {
     return this.repositoty.findOne({

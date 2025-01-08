@@ -38,9 +38,7 @@ class User {
     }
   }
 
-  async getOneUser(username: string) {
-    if (this.requestUser.username === username) return;
-
+  async getOneUser(username: string) {    
     await getRequest('user', 'findByUsername', username)
       .then((resp) => {
         this.requestUser = resp.data;

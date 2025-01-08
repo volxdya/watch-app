@@ -13,7 +13,7 @@ export async function getRequest(
   byFind?: number | string,
 ) {
   const response: AxiosResponse = await axios.get(
-    `/${prefix}/${method}/${byFind ? byFind : ''}`,
+    `/api/${prefix}/${method}/${byFind ? byFind : ''}`,
     header,
   );
 
@@ -26,7 +26,7 @@ export async function postRequest(
   data: any,
 ) {
   const response: AxiosResponse = await axios.post(
-    `/${prefix}/${method}`,
+    `/api/${prefix}/${method}`,
     data,
     header,
   );

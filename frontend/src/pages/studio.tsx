@@ -22,6 +22,7 @@ import { observer } from 'mobx-react-lite';
 import { FormEvent, useEffect, useState } from 'react';
 import { Pagination } from '@nextui-org/react';
 import { AxiosResponse } from 'axios';
+import { uploadFile } from '@/utils/uploadFile';
 
 export const StudioPage = observer(() => {
   const [title, setTitle] = useState('');
@@ -49,26 +50,23 @@ export const StudioPage = observer(() => {
     });
   };
 
-  const handleSubmitFile = async (e: any) => {
-    stopDefault(e);
-
-    if (!selectedFile) {
-      console.error('Файл не выбран!');
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append('video', selectedFile);
-    formData.append('videoId', videoId.toString());
-
-    try {
-      await postRequest('video', 'upload', formData);
+  const handleSubmitFile = async (e: FormEvent) => {
+    async function helper() {
       onClose();
       setPage(0);
       setVideoId(0);
-    } catch (error) {
-      console.error('Произошла ошибка:', error);
     }
+
+    uploadFile(
+      e,
+      [
+        { key: 'video', value: selectedFile },
+        { key: 'videoId', value: videoId.toString() },
+      ],
+      selectedFile,
+      helper,
+      'video',
+    );
   };
 
   const handleFileChange = (e: any) => {

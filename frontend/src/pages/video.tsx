@@ -15,9 +15,9 @@ export const VideoPage = observer(() => {
   }, []);
 
   useEffect(() => {
-    if (video.requestVideo) {
-      const a = video.requestVideo.videoFile.split('/')[1];
-      axios.get(`/${a}`).then((resp) => {
+    if (video.requestVideo.videoFile) {
+      const file = video.requestVideo.videoFile.split('/')[1];
+      axios.get(`/${file}`).then((resp) => {
         console.log(URL.createObjectURL(resp.data));
       })
     }

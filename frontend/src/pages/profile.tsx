@@ -34,6 +34,8 @@ export const ProfilePage = observer(() => {
 
   const userStore = user.requestUser;
 
+  const isYourProfile = userStore.username === user.userData.username;
+
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
@@ -85,8 +87,6 @@ export const ProfilePage = observer(() => {
     }
   }, []);
 
-  useEffect(() => {}, [userStore.videos]);
-
   return (
     <DefaultLayout>
       {userStore ? (
@@ -103,7 +103,7 @@ export const ProfilePage = observer(() => {
             name={userStore.username}
           />
 
-          {userStore.username === user.userData.username && (
+          {isYourProfile && (
             <p className="cursor-pointer text-md">
               Это ваш профиль и это очень круто.
             </p>
@@ -137,67 +137,70 @@ export const ProfilePage = observer(() => {
             </ModalContent>
           </Modal>
 
-          <Form onSubmit={handleSubmitFile}>
-            <Input
-              label="Title"
-              type="text"
-              value={title}
-              className="mt-2"
-              isRequired
-              onChange={onChange(setTitle)}
-            />
-            <Input
-              label="Description"
-              type="text"
-              className="mt-2"
-              isRequired
-              value={description}
-              onChange={onChange(setDescription)}
-            />
-            <Button type="submit" className="w-96">
-              Submit
-            </Button>
-          </Form>
+          {isYourProfile && (
+            <>
+              <Form onSubmit={handleSubmitFile}>
+                <Input
+                  label="Title"
+                  type="text"
+                  value={title}
+                  className="mt-2"
+                  isRequired
+                  onChange={onChange(setTitle)}
+                />
+                <Input
+                  label="Description"
+                  type="text"
+                  className="mt-2"
+                  isRequired
+                  value={description}
+                  onChange={onChange(setDescription)}
+                />
+                <Button type="submit" className="w-96">
+                  Submit
+                </Button>
+              </Form>
 
-          <Form onSubmit={handleSubmitFile}>
-            <Input
-              label="File"
-              type="file"
-              className="mt-2"
-              isRequired
-              accept="video/*"
-              onChange={handleFileChange}
-            />
-            <Input
-              label="Video ID"
-              type="text"
-              className="mt-2"
-              isRequired
-              onChange={onChange(setVideoId)}
-            />
-            <Button type="submit" className="w-96">
-              Submit
-            </Button>
-          </Form>
+              <Form onSubmit={handleSubmitFile}>
+                <Input
+                  label="File"
+                  type="file"
+                  className="mt-2"
+                  isRequired
+                  accept="video/*"
+                  onChange={handleFileChange}
+                />
+                <Input
+                  label="Video ID"
+                  type="text"
+                  className="mt-2"
+                  isRequired
+                  onChange={onChange(setVideoId)}
+                />
+                <Button type="submit" className="w-96">
+                  Submit
+                </Button>
+              </Form>
+            </>
+          )}
 
           <hr className="w-96" />
 
           <div className="flex gap-12 flex-wrap justify-center mt-4">
-            {userStore.videos
-              .map((item: IVideo, index: number) => {
-                return (
-                  <VideoCard
-                    key={index}
-                    w={96}
-                    h={100}
-                    id={item.id}
-                    title={item.title}
-                    preview="https://nextui.org/images/card-example-5.jpeg"
-                    channel={userStore.username}
-                    avatarChannel="https://nextui.org/images/breathing-app-icon.jpeg"
-                  />
-                );
-              })}
+            {userStore.videos.map((item: IVideo, index: number) => {
+              return (
+                <VideoCard
+                  key={index}
+                  w={96}
+                  h={100}
+                  id={item.id}
+                  title={item.title}
+                  preview="https://nextui.org/images/card-example-5.jpeg"
+                  channel={userStore.username}
+                  avatarChannel="https://nextui.org/images/breathing-app-icon.jpeg"
+                />
+              );
+            })}
           </div>
         </section>
       ) : (

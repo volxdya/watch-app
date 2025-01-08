@@ -1,4 +1,6 @@
 import { EditDocumentIcon, DeleteDocumentIcon } from '@/components/icons';
+import user from '@/store/user';
+import { deleteRequest } from '@/utils/request';
 import { Card, CardBody, CardFooter, CardHeader } from '@nextui-org/card';
 import {
   Button,
@@ -15,11 +17,17 @@ interface Props {
   title: string;
   description: string;
   channel: string;
+  id: number;
 }
 
-export function StudioCard({ title, description, channel }: Props) {
+export function StudioCard({ title, description, channel, id }: Props) {
   const iconClasses =
     'text-xl text-default-500 pointer-events-none flex-shrink-0';
+
+  async function deleteVideo() {
+    deleteRequest('video', 'delete', id);
+    user.getMe();
+  }
 
   return (
     <Card className="mt-2">
@@ -59,6 +67,7 @@ export function StudioCard({ title, description, channel }: Props) {
               className="text-danger"
               color="danger"
               shortcut="⌘⇧D"
+              onPress={deleteVideo}
               startContent={
                 <DeleteDocumentIcon
                   className={cn(iconClasses, 'text-danger')}

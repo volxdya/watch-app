@@ -3,8 +3,6 @@ import VideoCard from '@/shared/VideoCard';
 import user from '@/store/user';
 import {
   Button,
-  Form,
-  Input,
   Modal,
   ModalBody,
   ModalContent,
@@ -17,7 +15,6 @@ import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import NotFoundPage from './not-found';
-import { onChange } from '@/utils/onChange';
 import { IVideo } from '@/types/video';
 
 export const ProfilePage = observer(() => {

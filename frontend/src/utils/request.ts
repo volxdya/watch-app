@@ -33,3 +33,16 @@ export async function postRequest(
 
   return response;
 }
+
+export async function deleteRequest(
+  prefix: Prefixes,
+  method: DeleteMethods,
+  id: number,
+) {
+  const response: AxiosResponse = await axios.delete(
+    `/api/${prefix}/${method}/${id}`,
+    header,
+  );
+
+  return response;
+}

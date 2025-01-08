@@ -158,6 +158,7 @@ export const StudioPage = observer(() => {
             <div className="mt-5">
               {me.videos.slice(1, 11).map((item: IVideo) => (
                 <StudioCard
+                  id={item.id}
                   title={item.title}
                   description={item.description}
                   channel={me.username}
@@ -165,9 +166,11 @@ export const StudioPage = observer(() => {
               ))}
             </div>
 
-            <div className="mt-5 flex justify-center ">
-              <Pagination initialPage={1} total={10} />
-            </div>
+            {me.videos.length > 10 && (
+              <div className="mt-5 flex justify-center ">
+                <Pagination initialPage={1} total={10} />
+              </div>
+            )}
           </div>
         ) : (
           <div>Необходимо авторизоваться</div>

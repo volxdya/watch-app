@@ -5,8 +5,6 @@ import { IVideo } from '@/types/video';
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
 
-let arr: number[] = new Array(25).fill(1);
-
 export const IndexPage = observer(() => {
   useEffect(() => {
     video.getAllVideos();

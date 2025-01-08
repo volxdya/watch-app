@@ -43,6 +43,10 @@ export const siteConfig = {
       href: '/help-feedback',
     },
     {
+      label: 'Studio',
+      href: '/studio',
+    },
+    {
       label: 'Logout',
       href: '/logout',
     },

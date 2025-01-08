@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UploadedFile } from '@nestjs/common';
+import { Body, Controller, Delete, Param, Post, UploadedFile } from '@nestjs/common';
 import { AController } from 'src/abstractions';
 import { VideoService } from './video.service';
 import { UploadFiles } from 'src/utils/http/decorators';
@@ -16,5 +16,10 @@ export class VideoController extends AController<VideoService> {
     @UploadedFile() file: Express.Multer.File,
   ) {
     return this.videoService.uploadVideo(videoId, file);
+  }
+
+  @Delete('/delete/:videoId')
+  async deleteVideo(@Param('videoId') videoId: number) {
+    return this.videoService.deleteVideo(videoId);
   }
 }

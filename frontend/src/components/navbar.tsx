@@ -21,6 +21,7 @@ import {
   SearchIcon,
   LockIcon,
   MailIcon,
+  Add,
 } from '@/components/icons';
 import { Logo } from '@/components/icons';
 import {
@@ -40,7 +41,7 @@ import {
   useDisclosure,
   User,
 } from '@nextui-org/react';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { onChange } from '@/utils/onChange';
 import { postRequest } from '@/utils/request';
 import { setItem, getItem } from '@/utils/localStorage';
@@ -171,6 +172,12 @@ export const Navbar = observer(() => {
             <GithubIcon className="text-default-500" />
           </Link>
           <ThemeSwitch />
+          <Button>
+            <Link href="/studio" color="foreground">
+              <Add />
+              Create
+            </Link>
+          </Button>
 
           <div className="flex gap-3 items-center">
             {getItem('token') ? (

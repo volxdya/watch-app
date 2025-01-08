@@ -28,6 +28,16 @@ class User {
     description: '',
   };
 
+  me: IUser = {
+    videos: [],
+    id: 0,
+    username: '',
+    avatar: '',
+    description: '',
+    createdAt: new Date(8.64e15),
+    updatedAt: new Date(8.64e15),
+  };
+
   getToken() {
     const token = getItem('token');
 
@@ -38,10 +48,20 @@ class User {
     }
   }
 
-  async getOneUser(username: string) {    
+  async getOneUser(username: string) {
     await getRequest('user', 'findByUsername', username)
       .then((resp) => {
         this.requestUser = resp.data;
+      })
+      .catch((error: AxiosError) => {
+        console.log(error.message);
+      });
+  }
+
+  async getMe() {
+    await getRequest('user', 'findByUsername', this.userData.username)
+      .then((resp) => {
+        this.me = resp.data;
       })
       .catch((error: AxiosError) => {
         console.log(error.message);

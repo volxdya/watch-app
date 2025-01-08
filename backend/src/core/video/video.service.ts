@@ -44,4 +44,16 @@ export class VideoService extends Service<CreateVideoDto> {
 
     return video;
   }
+
+  async deleteVideo(videoId: number) {
+    const video = await this.getOne(videoId);
+
+    await this.delete(videoId);
+
+    if (video.videoFile !== null) {
+      await this.filesService.deleteFile(video.videoFile);
+    }
+
+    return video;
+  }
 }

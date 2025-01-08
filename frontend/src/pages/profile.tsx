@@ -14,15 +14,11 @@ import {
   User,
 } from '@nextui-org/react';
 import { observer } from 'mobx-react-lite';
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import NotFoundPage from './not-found';
-import { stopDefault } from '@/utils/stopDefault';
-import { postRequest } from '@/utils/request';
 import { onChange } from '@/utils/onChange';
 import { IVideo } from '@/types/video';
-
-let arr: number[] = new Array(25).fill(1);
 
 export const ProfilePage = observer(() => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -35,51 +31,6 @@ export const ProfilePage = observer(() => {
   const userStore = user.requestUser;
 
   const isYourProfile = userStore.username === user.userData.username;
-
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [videoId, setVideoId] = useState('0');
-
-  const handleFileChange = (e: any) => {
-    setSelectedFile(e.target.files[0]);
-  };
-
-  const handleSubmitFile = async (e: any) => {
-    stopDefault(e);
-    if (!selectedFile) {
-      console.error('Файл не выбран!');
-      return;
-    }
-    const formData = new FormData();
-    formData.append('video', selectedFile);
-    formData.append('videoId', videoId.toString());
-
-    try {
-      const response = await postRequest('video', 'upload', formData);
-
-      console.log(response.data);
-      console.log(response.statusText);
-      console.log(response.status);
-    } catch (error) {
-      console.error('Произошла ошибка:', error);
-    }
-  };
-
-  const handleSubmitVideo = async (e: FormEvent) => {
-    stopDefault(e);
-
-    await postRequest('video', 'create', {
-      userId: user.userData.id,
-      title: title,
-      description: description,
-    }).then(() => {
-      user.getOneUser(userStore.username);
-      setTitle('');
-      setDescription('');
-    });
-  };
 
   useEffect(() => {
     if (username) {
@@ -136,53 +87,6 @@ export const ProfilePage = observer(() => {
               )}
             </ModalContent>
           </Modal>
-
-          {isYourProfile && (
-            <>
-              <Form onSubmit={handleSubmitFile}>
-                <Input
-                  label="Title"
-                  type="text"
-                  value={title}
-                  className="mt-2"
-                  isRequired
-                  onChange={onChange(setTitle)}
-                />
-                <Input
-                  label="Description"
-                  type="text"
-                  className="mt-2"
-                  isRequired
-                  value={description}
-                  onChange={onChange(setDescription)}
-                />
-                <Button type="submit" className="w-96">
-                  Submit
-                </Button>
-              </Form>
-
-              <Form onSubmit={handleSubmitFile}>
-                <Input
-                  label="File"
-                  type="file"
-                  className="mt-2"
-                  isRequired
-                  accept="video/*"
-                  onChange={handleFileChange}
-                />
-                <Input
-                  label="Video ID"
-                  type="text"
-                  className="mt-2"
-                  isRequired
-                  onChange={onChange(setVideoId)}
-                />
-                <Button type="submit" className="w-96">
-                  Submit
-                </Button>
-              </Form>
-            </>
-          )}
 
           <hr className="w-96" />
 

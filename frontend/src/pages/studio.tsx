@@ -129,18 +129,22 @@ export const StudioPage = observer(() => {
                         </p>
                       </ModalBody>
                     ) : (
-                      <Form onSubmit={handleSubmitFile}>
-                        <Input
-                          label="File"
-                          type="file"
-                          className="mt-2"
-                          isRequired
-                          accept="video/*"
-                          onChange={handleFileChange}
-                        />
-                        <Button type="submit" className="w-96">
-                          Submit
-                        </Button>
+                      <Form onSubmit={handleSubmitFile} className="">
+                        <div className="flex justify-center w-full">
+                          <Input
+                            label="File"
+                            type="file"
+                            className="mt-2 w-11/12"
+                            isRequired
+                            accept="video/*"
+                            onChange={handleFileChange}
+                          />
+                        </div>
+                        <div className="flex justify-center w-full mt-2">
+                          <Button type="submit" className="w-11/12">
+                            Submit
+                          </Button>
+                        </div>
                       </Form>
                     )}
                     <ModalFooter>

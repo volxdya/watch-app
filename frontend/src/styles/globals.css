@@ -3,9 +3,24 @@
 @tailwind utilities;
 
 body::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 body {
-    overflow-x: none;
+  overflow-x: none;
+}
+
+video {
+  width: 1200px;
+  height: 500px;
+  object-fit: contain;
+  box-shadow: 0px 0px 20px rgb(255, 101, 237);
+}
+
+.video-container {
+  max-width: 1000px;
+  width: 100%;
+}
+.text-container {
+  word-wrap: break-word;
 }

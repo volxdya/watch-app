@@ -5,12 +5,17 @@ interface FindAllOptions {
   limit?: number;
 }
 
-
 interface OtherFind {
+  include: Includeable[] | Includeable;
+}
+
+interface FindOne {
   include: Includeable[] | Includeable;
 }
 
 interface ServiceOptions {
   findAll: FindAllOptions;
   otherFind: OtherFind;
+  findOne: FindOne;
 }
+

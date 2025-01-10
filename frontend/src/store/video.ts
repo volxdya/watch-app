@@ -3,12 +3,16 @@ import { getRequest } from '@/utils/request';
 import { AxiosResponse } from 'axios';
 import { makeAutoObservable } from 'mobx';
 
+interface IVideoStore extends IVideo {
+  temporaryUrl: string;
+}
+
 class Video {
   constructor() {
     makeAutoObservable(this);
   }
 
-  requestVideo: IVideo = {
+  requestVideo: IVideoStore = {
     id: 0,
     title: '',
     userId: 0,
@@ -16,6 +20,7 @@ class Video {
     createdAt: new Date(8.64e15),
     updatedAt: new Date(8.64e15),
     videoFile: '',
+    temporaryUrl: '',
     user: {
       id: 0,
       username: '',
@@ -35,6 +40,30 @@ class Video {
         this.requestVideo = resp.data;
       },
     );
+
+    const createBlobUrl = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:8080/${this.requestVideo.videoFile.split('/')[1]}`,
+          {
+            method: 'GET',
+          },
+        );
+
+        if (!response.ok) {
+          throw new Error(`Failed to fetch video. Status: ${response.status}`);
+        }
+
+        const blob = await response.blob();
+
+        const url = URL.createObjectURL(blob);
+        this.requestVideo.temporaryUrl = url;
+      } catch (error) {
+        console.error('Error fetching and creating URL:', error);
+      }
+    };
+
+    createBlobUrl();
   }
 
   async getAllVideos() {

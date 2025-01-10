@@ -12,6 +12,9 @@ export const userServiceOptions: ServiceOptions = {
   findAll: {
     include: [VideoModel],
   },
+  findOne: {
+    include: [VideoModel],
+  },
   otherFind: {
     include: [VideoModel],
   },

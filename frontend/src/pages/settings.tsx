@@ -7,9 +7,11 @@ import { Input } from '@nextui-org/input';
 import { Avatar, Button, Form } from '@nextui-org/react';
 import { observer } from 'mobx-react-lite';
 import { FormEvent, useState } from 'react';
+import { Spinner } from '@nextui-org/spinner';
 
 export const SettingsPage = observer(() => {
   const [selectedFile, setSelectedFile] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const me = user.me;
 
   function helper() {
@@ -18,6 +20,8 @@ export const SettingsPage = observer(() => {
   }
 
   async function upload(e: FormEvent) {
+    setIsLoading(true);
+
     uploadFile(
       e,
       [
@@ -28,6 +32,8 @@ export const SettingsPage = observer(() => {
       helper,
       'user',
     );
+
+    setIsLoading(false);
   }
 
   const handleFileChange = (e: any) => {
@@ -64,30 +70,34 @@ export const SettingsPage = observer(() => {
               </p>
             </div>
 
-            <div className="h-32 flex border-1 rounded-2xl">
-              {me.avatar ? (
-                <img
-                  src={getFileUrl(me.avatar)}
-                  alt="Ваша аватарка"
-                  className="rounded-2xl"
-                />
-              ) : (
-                <div className="h-full w-48 flex items-center justify-center">
-                  <Avatar
-                    showFallback
-                    size="lg"
-                    fallback={
-                      <CameraIcon
-                        className="animate-pulse w-6 h-6 text-default-500"
-                        fill="currentColor"
-                        size={20}
-                      />
-                    }
-                    src="https://images.unsplash.com/broken"
+            {isLoading ? (
+              <Spinner />
+            ) : (
+              <div className="h-32 flex border-1 rounded-2xl">
+                {me.avatar ? (
+                  <img
+                    src={getFileUrl(me.avatar)}
+                    alt="Ваша аватарка"
+                    className="rounded-2xl"
                   />
-                </div>
-              )}
-            </div>
+                ) : (
+                  <div className="h-full w-48 flex items-center justify-center">
+                    <Avatar
+                      showFallback
+                      size="lg"
+                      fallback={
+                        <CameraIcon
+                          className="animate-pulse w-6 h-6 text-default-500"
+                          fill="currentColor"
+                          size={20}
+                        />
+                      }
+                      src="https://images.unsplash.com/broken"
+                    />
+                  </div>
+                )}
+              </div>
+            )}
           </div>
           <Input
             type="text"

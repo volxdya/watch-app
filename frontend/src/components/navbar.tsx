@@ -48,7 +48,7 @@ import { setItem, getItem } from '@/utils/localStorage';
 import { observer } from 'mobx-react-lite';
 import user from '@/store/user';
 import { logOut } from '@/utils/logOut';
-import { getAvatar } from '@/utils/getAvatar';
+import { getFileUrl } from '@/utils/getFileUrl';
 
 export const Navbar = observer(() => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -188,7 +188,7 @@ export const Navbar = observer(() => {
                     as="button"
                     avatarProps={{
                       isBordered: true,
-                      src: getAvatar(user.me.avatar),
+                      src: getFileUrl(user.me.avatar),
                     }}
                     className="transition-transform"
                     description={`@${userData.username}`}

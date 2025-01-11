@@ -1,7 +1,7 @@
 import { CameraIcon } from '@/components/icons';
 import DefaultLayout from '@/layouts/default';
 import user from '@/store/user';
-import { getAvatar } from '@/utils/getAvatar';
+import { getFileUrl } from '@/utils/getFileUrl';
 import { uploadFile } from '@/utils/uploadFile';
 import { Input } from '@nextui-org/input';
 import { Avatar, Button, Form } from '@nextui-org/react';
@@ -67,7 +67,7 @@ export const SettingsPage = observer(() => {
             <div className="h-32 flex border-1 rounded-2xl">
               {me.avatar ? (
                 <img
-                  src={getAvatar(me.avatar)}
+                  src={getFileUrl(me.avatar)}
                   alt="Ваша аватарка"
                   className="rounded-2xl"
                 />

@@ -1,5 +1,4 @@
 import { IVideo } from '@/types/video';
-import { createBlobUrl } from '@/utils/getUrlFromFile';
 import { getRequest } from '@/utils/request';
 import { AxiosResponse } from 'axios';
 import { makeAutoObservable } from 'mobx';
@@ -41,14 +40,6 @@ class Video {
         this.requestVideo = resp.data;
       },
     );
-
-    const videoFile = this.requestVideo.videoFile.split('/')[1];
-
-    createBlobUrl(videoFile).then((value: string | undefined) => {
-      if (value) {
-        this.requestVideo.temporaryUrl = value;
-      }
-    });
   }
 
   async getAllVideos() {

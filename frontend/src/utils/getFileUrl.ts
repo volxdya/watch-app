@@ -1,5 +1,5 @@
 import { API } from './env';
 
-export function getAvatar(avatar: string) {
+export function getFileUrl(avatar: string) {
   return `${API}/${avatar.split('/')[1]}`;
 }

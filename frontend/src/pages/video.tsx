@@ -1,7 +1,7 @@
 import DefaultLayout from '@/layouts/default';
 import user from '@/store/user';
 import video from '@/store/video';
-import { getAvatar } from '@/utils/getAvatar';
+import { getFileUrl } from '@/utils/getFileUrl';
 import { Accordion, AccordionItem } from '@nextui-org/accordion';
 import { Link, User } from '@nextui-org/react';
 import { observer } from 'mobx-react-lite';
@@ -26,7 +26,7 @@ export const VideoPage = observer(() => {
         {video.requestVideo.videoFile ? (
           <div className="video-container">
             <video
-              src={storeVideo.temporaryUrl}
+              src={getFileUrl(storeVideo.videoFile)}
               controls
               width={400}
               className="rounded-xl"
@@ -38,7 +38,7 @@ export const VideoPage = observer(() => {
             >
               <User
                 avatarProps={{
-                  src: getAvatar(storeVideo.user.avatar),
+                  src: getFileUrl(storeVideo.user.avatar),
                   isBordered: true,
                   size: 'xl',
                 }}

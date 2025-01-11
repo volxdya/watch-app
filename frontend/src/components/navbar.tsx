@@ -48,6 +48,7 @@ import { setItem, getItem } from '@/utils/localStorage';
 import { observer } from 'mobx-react-lite';
 import user from '@/store/user';
 import { logOut } from '@/utils/logOut';
+import { getAvatar } from '@/utils/getAvatar';
 
 export const Navbar = observer(() => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -187,7 +188,7 @@ export const Navbar = observer(() => {
                     as="button"
                     avatarProps={{
                       isBordered: true,
-                      src: 'https://i.pravatar.cc/150?u=a042581f4e29026024d',
+                      src: getAvatar(user.me.avatar),
                     }}
                     className="transition-transform"
                     description={`@${userData.username}`}
@@ -209,7 +210,15 @@ export const Navbar = observer(() => {
                       </div>
                     </Link>
                   </DropdownItem>
-                  <DropdownItem key="settings">My Settings</DropdownItem>
+                  <DropdownItem key="settings">
+                    <Link
+                      href="/settings"
+                      color="foreground"
+                      className="w-full"
+                    >
+                      Settings
+                    </Link>
+                  </DropdownItem>
                   <DropdownItem key="team_settings">Team Settings</DropdownItem>
                   <DropdownItem key="analytics">Analytics</DropdownItem>
                   <DropdownItem key="system">System</DropdownItem>

@@ -20,11 +20,11 @@ export class UserController extends AController<UserService> {
     super(userService);
   }
 
-  @Put('updateAvatar/:userId')
+  @Post('upload')
   @UploadFiles('avatar')
   uploadFile(
     @UploadedFile() file: Express.Multer.File,
-    @Param('userId') userId: number,
+    @Body('userId') userId: number,
   ) {
     return this.userService.uploadAvatar(file, userId);
   }

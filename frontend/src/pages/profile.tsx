@@ -16,6 +16,7 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import NotFoundPage from './not-found';
 import { IVideo } from '@/types/video';
+import { API } from '@/utils/env';
 
 export const ProfilePage = observer(() => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -44,7 +45,7 @@ export const ProfilePage = observer(() => {
             avatarProps={{
               isBordered: true,
               size: 'lg',
-              src: 'https://i.pravatar.cc/150?u=a042581f4e29026024d',
+              src: `${API}/${userStore.avatar.split('/')[1]}`,
             }}
             className="transition-transform w-full"
             description={`@${userStore.username}`}

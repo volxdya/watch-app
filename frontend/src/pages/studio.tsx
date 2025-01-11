@@ -158,7 +158,7 @@ export const StudioPage = observer(() => {
             </Modal>
 
             <div className="mt-5">
-              {me.videos.slice(1, 11).map((item: IVideo) => (
+              {me.videos.map((item: IVideo) => (
                 <StudioCard
                   id={item.id}
                   title={item.title}

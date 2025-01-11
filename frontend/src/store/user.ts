@@ -59,7 +59,7 @@ class User {
   }
 
   async getMe() {
-    await getRequest('user', 'findByUsername', this.userData.username)
+    await getRequest('user', 'get_one', this.userData.id)
       .then((resp) => {
         this.me = resp.data;
       })

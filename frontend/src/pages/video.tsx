@@ -1,6 +1,7 @@
 import DefaultLayout from '@/layouts/default';
 import user from '@/store/user';
 import video from '@/store/video';
+import { getAvatar } from '@/utils/getAvatar';
 import { Accordion, AccordionItem } from '@nextui-org/accordion';
 import { Link, User } from '@nextui-org/react';
 import { observer } from 'mobx-react-lite';
@@ -31,10 +32,13 @@ export const VideoPage = observer(() => {
               className="rounded-xl"
             ></video>
             <p className="mt-5 text-xl">{storeVideo.title}</p>
-            <Link href={`/profile/${storeVideo.user.username}`} color='foreground'>
+            <Link
+              href={`/profile/${storeVideo.user.username}`}
+              color="foreground"
+            >
               <User
                 avatarProps={{
-                  src: 'https://i.pravatar.cc/150?u=a042581f4e29026024d',
+                  src: getAvatar(storeVideo.user.avatar),
                   isBordered: true,
                   size: 'xl',
                 }}
@@ -44,12 +48,12 @@ export const VideoPage = observer(() => {
               />
             </Link>
 
-            <div className="rounded-xl mt-5 p-2 border-1" color='foreground'>
+            <div className="rounded-xl mt-5 p-2 border-1" color="foreground">
               <Accordion>
                 <AccordionItem
                   key="1"
                   aria-label="Accordion 1"
-                  title='Description'
+                  title="Description"
                 >
                   <p className="mt-2 text-container text-gray-500">
                     {storeVideo.description}

@@ -1,4 +1,5 @@
 import { IVideo } from '@/types/video';
+import { createBlobUrl } from '@/utils/getUrlFromFile';
 import { getRequest } from '@/utils/request';
 import { AxiosResponse } from 'axios';
 import { makeAutoObservable } from 'mobx';
@@ -41,29 +42,13 @@ class Video {
       },
     );
 
-    const createBlobUrl = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:8080/${this.requestVideo.videoFile.split('/')[1]}`,
-          {
-            method: 'GET',
-          },
-        );
+    const videoFile = this.requestVideo.videoFile.split('/')[1];
 
-        if (!response.ok) {
-          throw new Error(`Failed to fetch video. Status: ${response.status}`);
-        }
-
-        const blob = await response.blob();
-
-        const url = URL.createObjectURL(blob);
-        this.requestVideo.temporaryUrl = url;
-      } catch (error) {
-        console.error('Error fetching and creating URL:', error);
+    createBlobUrl(videoFile).then((value: string | undefined) => {
+      if (value) {
+        this.requestVideo.temporaryUrl = value;
       }
-    };
-
-    createBlobUrl();
+    });
   }
 
   async getAllVideos() {

@@ -6,6 +6,7 @@ import user from './store/user';
 import { ProfilePage } from './pages/profile';
 import { VideoPage } from './pages/video';
 import { StudioPage } from './pages/studio';
+import { SettingsPage } from './pages/settings';
 
 function App() {
   useEffect(() => {
@@ -19,6 +20,7 @@ function App() {
       <Route element={<ProfilePage />} path="/profile/:username" />
       <Route element={<VideoPage />} path="/video/:videoId" />
       <Route element={<StudioPage />} path="/studio" />
+      <Route element={<SettingsPage />} path="/settings" />
     </Routes>
   );
 }

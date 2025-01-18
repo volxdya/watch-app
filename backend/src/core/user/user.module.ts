@@ -6,11 +6,15 @@ import { UserModel } from './user.model';
 import { UserResolver } from './user.resolver';
 import { FilesModule } from '../files/files.module';
 import { VideoModel } from '../video';
+import { CommentaryModel } from '../commentary/commentary.model';
 
 @Module({
-  imports: [SequelizeModule.forFeature([UserModel, VideoModel]), FilesModule],
+  imports: [
+    SequelizeModule.forFeature([UserModel, VideoModel, CommentaryModel]),
+    FilesModule,
+  ],
   controllers: [UserController],
   providers: [UserService, UserResolver],
-  exports: [UserService]
+  exports: [UserService],
 })
 export class UserModule {}

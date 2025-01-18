@@ -21,7 +21,7 @@ export const IndexPage = observer(() => {
               <VideoCard
                 id={item.id}
                 w={96}
-                h={250}
+                h={123}
                 title={item.title}
                 preview="https://nextui.org/images/card-example-5.jpeg"
                 channel={item.user.username}

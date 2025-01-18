@@ -1,5 +1,6 @@
 import { Column, DataType, HasMany, Model, Table } from 'sequelize-typescript';
 import { VideoModel } from '../video';
+import { CommentaryModel } from '../commentary/commentary.model';
 
 interface IUser {
   username: string;
@@ -43,4 +44,7 @@ export class UserModel extends Model<Model, IUser> {
 
   @HasMany(() => VideoModel)
   videos: VideoModel[];
+
+  @HasMany(() => CommentaryModel)
+  commentaries: CommentaryModel[];
 }

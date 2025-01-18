@@ -6,8 +6,18 @@ import { VideoModule } from './video/video.module';
 import { Module } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
+import { CommentaryModule } from './commentary/commentary.module';
 
 @Module({
-  imports: [MyConfigModule, FilesModule, UserModule, VideoModule, AiModule, AuthModule, JwtModule],
+  imports: [
+    MyConfigModule,
+    FilesModule,
+    UserModule,
+    VideoModule,
+    AiModule,
+    AuthModule,
+    JwtModule,
+    CommentaryModule,
+  ],
 })
 export class AppModule {}

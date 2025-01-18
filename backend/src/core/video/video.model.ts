@@ -3,10 +3,12 @@ import {
   Column,
   DataType,
   ForeignKey,
+  HasMany,
   Model,
   Table,
 } from 'sequelize-typescript';
 import { UserModel } from '../user';
+import { CommentaryModel } from '../commentary/commentary.model';
 
 export interface VideoAttributes {
   title: string;
@@ -41,6 +43,9 @@ export class VideoModel extends Model<
 
   @BelongsTo(() => UserModel)
   user: UserModel;
+
+  @HasMany(() => CommentaryModel)
+  commenatires: CommentaryModel[];
 
   @Column({
     type: DataType.STRING,

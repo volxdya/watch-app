@@ -11,6 +11,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
+import { CommentaryModel } from 'src/core/commentary/commentary.model';
 
 @Module({
   imports: [
@@ -35,7 +36,7 @@ import { join } from 'path';
       password: process.env.POSTGRES_PASSWORD,
       username: process.env.POSTGRES_USERNAME,
       autoLoadModels: true,
-      models: [UserModel, VideoModel],
+      models: [UserModel, VideoModel, CommentaryModel],
     }),
   ],
   providers: [

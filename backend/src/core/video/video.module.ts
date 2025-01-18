@@ -5,9 +5,10 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { VideoModel } from './video.model';
 import { UserModel } from '../user';
 import { FilesModule } from '../files/files.module';
+import { CommentaryModel } from '../commentary/commentary.model';
 
 @Module({
-  imports: [SequelizeModule.forFeature([VideoModel, UserModel]), FilesModule],
+  imports: [SequelizeModule.forFeature([VideoModel, UserModel, CommentaryModel]), FilesModule],
   providers: [VideoService],
   controllers: [VideoController],
 })

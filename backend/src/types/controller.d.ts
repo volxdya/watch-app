@@ -1,0 +1,3 @@
+interface ControllerMetaInfo {
+    title: string;
+}

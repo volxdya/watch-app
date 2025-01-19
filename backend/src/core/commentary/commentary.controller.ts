@@ -5,6 +5,6 @@ import { AController } from 'src/abstractions';
 @Controller('commentary')
 export class CommentaryController extends AController<CommentaryService> {
   constructor(private readonly commentaryService: CommentaryService) {
-    super(commentaryService);
+    super(commentaryService, { title: 'commentary' });
   }
 }

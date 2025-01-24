@@ -26,6 +26,8 @@ class User {
     updatedAt: new Date(8.64e15),
     avatar: '',
     description: '',
+    visibleUsername: ''
+
   };
 
   me: IUser = {
@@ -36,6 +38,7 @@ class User {
     description: '',
     createdAt: new Date(8.64e15),
     updatedAt: new Date(8.64e15),
+    visibleUsername: ''
   };
 
   getToken() {

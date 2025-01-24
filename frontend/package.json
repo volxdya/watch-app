@@ -10,6 +10,9 @@
 		"start:preview": "vite preview"
 	},
 	"dependencies": {
+		"@heroui/input-otp": "^2.1.9",
+		"@heroui/system": "^2.4.7",
+		"@heroui/theme": "^2.4.6",
 		"@nextui-org/accordion": "^2.2.7",
 		"@nextui-org/avatar": "^2.2.6",
 		"@nextui-org/button": "2.2.8",

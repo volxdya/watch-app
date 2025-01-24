@@ -3,16 +3,25 @@ import DefaultLayout from '@/layouts/default';
 import user from '@/store/user';
 import { getFileUrl } from '@/utils/getFileUrl';
 import { uploadFile } from '@/utils/uploadFile';
-import { Input } from '@nextui-org/input';
-import { Avatar, Button, Form } from '@nextui-org/react';
+import { Input, Textarea } from '@nextui-org/input';
+import { Avatar, Button, Form, InputOtp } from '@nextui-org/react';
 import { observer } from 'mobx-react-lite';
 import { FormEvent, useState } from 'react';
 import { Spinner } from '@nextui-org/spinner';
+import { stopDefault } from '@/utils/stopDefault';
+import { patchRequest } from '@/utils/request';
+import { onChange } from '@/utils/onChange';
 
 export const SettingsPage = observer(() => {
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
   const me = user.me;
+
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [visibleUsername, setVisibleUsername] = useState(me.visibleUsername);
+  const [description, setDescription] = useState(me.description);
+  const [isLoading, setIsLoading] = useState(false);
+
+  console.log(visibleUsername, description);
+  console.log(me);
 
   function helper() {
     setSelectedFile(null);
@@ -40,6 +49,21 @@ export const SettingsPage = observer(() => {
     setSelectedFile(e.target.files[0]);
   };
 
+  async function updateData(e: FormEvent) {
+    stopDefault(e);
+
+    if (selectedFile) {
+      await upload(e);
+    }
+
+    await patchRequest('user', 'update', me.id, {
+      visibleUsername: visibleUsername,
+      description: description,
+    }).then(() => {
+      user.getMe();
+    });
+  }
+
   return (
     <DefaultLayout>
       <section className="flex flex-col items-center gap-4">
@@ -47,12 +71,10 @@ export const SettingsPage = observer(() => {
           <p className="text-2xl">Настройки канала</p>
         </div>
         <hr className="w-96" />
-        <p className="text-xl">Фото профиля</p>
-        <p>
-          Фото профиля показывается, например, рядом с вашими видео или
-          комментариями на Watch.
-        </p>
-        <Form onSubmit={upload}>
+        <p className='text-xl mt-5'>Ваш ID</p>
+        <InputOtp isReadOnly defaultValue={me.id.toString()} length={me.id.toString().length} />
+        <p className="text-xl mt-5">Фото профиля</p>
+        <Form onSubmit={updateData}>
           <div className="flex gap-5 items-center">
             <div>
               <Input
@@ -102,17 +124,19 @@ export const SettingsPage = observer(() => {
           <Input
             type="text"
             className="mt-5"
-            value={me.username}
+            value={visibleUsername}
             placeholder="Username"
             label="Username"
+            onChange={onChange(setVisibleUsername)}
           />
 
-          <Input
+          <Textarea
             type="text"
             className="mt-2"
-            value={me.description}
+            value={description}
             placeholder="Description"
             label="Description"
+            onChange={onChange(setDescription)}
           />
 
           <Button type="submit" className="w-full mt-2">

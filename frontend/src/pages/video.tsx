@@ -43,8 +43,14 @@ export const VideoPage = observer(() => {
                   size: 'xl',
                 }}
                 className="mt-3"
-                name={storeVideo.user.username}
-                description="20 subscribers"
+                name={storeVideo.user.visibleUsername}
+                description={
+                  <>
+                    <span>@{storeVideo.user.username}</span>
+                    <br />
+                    <span>20 subscribers</span>
+                  </>
+                }
               />
             </Link>
 
@@ -55,7 +61,7 @@ export const VideoPage = observer(() => {
                   aria-label="Accordion 1"
                   title="Description"
                 >
-                  <p className="mt-2 text-container text-gray-500">
+                  <p style={{ whiteSpace: 'pre-line' }} className='mt-2 text-container text-gray-500'>
                     {storeVideo.description}
                   </p>
                 </AccordionItem>

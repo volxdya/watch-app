@@ -50,9 +50,4 @@ export abstract class AController<T extends Service> {
   async delete(@Param('id') id: number) {
     return this.service.delete(id);
   }
-
-  @Patch('/update/:id')
-  async update(@Param('id') id: number, @Body() dto: Object) {
-    return this.service.update(dto, id);
-  }
 }

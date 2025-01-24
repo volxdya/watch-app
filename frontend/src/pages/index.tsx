@@ -24,7 +24,7 @@ export const IndexPage = observer(() => {
                 h={123}
                 title={item.title}
                 preview="https://nextui.org/images/card-example-5.jpeg"
-                channel={item.user.username}
+                channel={item.user.visibleUsername}
                 avatarChannel="https://nextui.org/images/breathing-app-icon.jpeg"
               />
             );

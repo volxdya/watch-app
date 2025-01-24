@@ -36,14 +36,4 @@ export abstract class Service<T = Dto> {
       include: this.options.otherFind.include,
     });
   }
-
-  async update(dto: Object, id: number) {
-    const entity = await this.repositoty.findOne({ where: { id } });
-
-    entity.update(dto);
-
-    const entityUpdated = await this.repositoty.findOne({ where: { id } });
-
-    return entityUpdated;
-  }
 }

@@ -49,7 +49,7 @@ export const ProfilePage = observer(() => {
             }}
             className="transition-transform w-full"
             description={`@${userStore.username}`}
-            name={userStore.username}
+            name={userStore.visibleUsername}
           />
 
           {isYourProfile && (
@@ -71,7 +71,9 @@ export const ProfilePage = observer(() => {
                   </ModalHeader>
                   <ModalBody>
                     {userStore.description ? (
-                      <p>{userStore.description}</p>
+                      <p style={{ whiteSpace: 'pre-line' }}>
+                        {userStore.description}
+                      </p>
                     ) : (
                       <p>Пока здесь ничего нет.</p>
                     )}

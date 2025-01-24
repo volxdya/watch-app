@@ -3,6 +3,7 @@ import { UserService } from './user.service';
 import { SkipThrottle } from '@nestjs/throttler';
 import { AResolver } from 'src/abstractions/resolver';
 import { User } from './user.gpql.model';
+import { SetMetadata } from '@nestjs/common';
 
 // @Resolver()
 // @SkipThrottle()

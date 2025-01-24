@@ -52,7 +52,7 @@ export class UserController extends AController<UserService> {
     return this.userService.register(dto);
   }
 
-  @Patch('/updateUser/:id')
+  @Patch('/update/:id')
   async update(@Param('id') id: number, @Body() dto: Object) {
     return this.userService.update(id, dto);
   }

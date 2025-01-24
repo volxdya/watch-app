@@ -63,6 +63,7 @@ export const Navbar = observer(() => {
   const passwordRef = useRef(null);
 
   const userData = user.userData;
+  const me = user.me;
 
   function handleChangeIsSignIn() {
     setIsSignIn(!isSignIn);
@@ -192,7 +193,7 @@ export const Navbar = observer(() => {
                     }}
                     className="transition-transform"
                     description={`@${userData.username}`}
-                    name={userData.username}
+                    name={me.visibleUsername}
                   />
                 </DropdownTrigger>
                 <DropdownMenu aria-label="User Actions" variant="flat">

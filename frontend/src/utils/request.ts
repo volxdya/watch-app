@@ -46,3 +46,18 @@ export async function deleteRequest(
 
   return response;
 }
+
+export async function patchRequest(
+  prefix: Prefixes,
+  method: PatchMethods,
+  id: number,
+  data: any,
+) {
+  const response: AxiosResponse = await axios.patch(
+    `/api/${prefix}/${method}/${id}`,
+    data,
+    header,
+  );
+
+  return response;
+}

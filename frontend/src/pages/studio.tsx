@@ -23,6 +23,7 @@ import { FormEvent, useEffect, useState } from 'react';
 import { Pagination } from '@nextui-org/react';
 import { AxiosResponse } from 'axios';
 import { uploadFile } from '@/utils/uploadFile';
+import { Textarea } from '@nextui-org/input';
 
 export const StudioPage = observer(() => {
   const [title, setTitle] = useState('');
@@ -114,7 +115,7 @@ export const StudioPage = observer(() => {
                               isRequired
                               onChange={onChange(setTitle)}
                             />
-                            <Input
+                            <Textarea
                               label="Description"
                               type="text"
                               className="mt-2"

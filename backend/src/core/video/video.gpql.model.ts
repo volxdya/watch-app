@@ -1,17 +1,16 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
-export class User {
+export class Video {
   @Field(() => Int)
   id: number;
 
   @Field()
-  username: string;
+  title: string;
 
   @Field()
-  avatar: string;
+  videoFile: string;
 
   @Field()
-  visibleUsername: string;
-
+  description: string;
 }

@@ -3,11 +3,22 @@
 # ------------------------------------------------------
 
 type Query {
-  user: [User!]!
+  oneUser(id: Int!): User!
+  oneVideo(id: Int!): Video!
+  users: [User!]!
+  videos: [Video!]!
 }
 
 type User {
   avatar: String!
   id: Int!
   username: String!
+  visibleUsername: String!
+}
+
+type Video {
+  description: String!
+  id: Int!
+  title: String!
+  videoFile: String!
 }

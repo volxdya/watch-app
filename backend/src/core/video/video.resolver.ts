@@ -1,9 +1,9 @@
 import { Args, Int, Query, Resolver } from '@nestjs/graphql';
-import { UserService } from './user.service';
 import { SkipThrottle } from '@nestjs/throttler';
 import { AResolver } from 'src/abstractions/resolver';
-import { User } from './user.gpql.model';
 import { SetMetadata } from '@nestjs/common';
+import { VideoService } from './video.service';
+import { Video } from './video.gpql.model';
 
 // @Resolver()
 // @SkipThrottle()
@@ -12,18 +12,18 @@ import { SetMetadata } from '@nestjs/common';
 
 @Resolver()
 @SkipThrottle()
-export class UserResolver {
-  constructor(private readonly userService: UserService) {}
+export class VideoResolver {
+  constructor(private readonly videoService: VideoService) {}
 
-  @Query(() => [User], { name: 'users' })
+  @Query(() => [Video], { name: 'videos' })
   @SetMetadata('isPublic', true)
   async findAll() {
-    return await this.userService.getAll();
+    return await this.videoService.getAll();
   }
 
-  @Query(() => User, { name: 'oneUser' })
+  @Query(() => Video, { name: 'oneVideo' })
   @SetMetadata('isPublic', true)
   async author(@Args('id', { type: () => Int }) id: number) {
-    return this.userService.getOne(id);
+    return this.videoService.getOne(id);
   }
 }

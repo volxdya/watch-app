@@ -1,4 +1,4 @@
-import { Body, Delete, Get, Param, Post, SetMetadata } from '@nestjs/common';
+import { Body, Delete, Get, Param, Patch, Post, SetMetadata } from '@nestjs/common';
 import { Service } from './service';
 import { Dto } from './dto';
 import { Docs } from 'src/utils/http/decorators/docs.decorator';
@@ -49,5 +49,10 @@ export abstract class AController<T extends Service> {
   })
   async delete(@Param('id') id: number) {
     return this.service.delete(id);
+  }
+
+  @Patch('/update/:id')
+  async update(@Param('id') id: number, @Body() dto: Object) {
+    return this.service.update(dto, id);
   }
 }

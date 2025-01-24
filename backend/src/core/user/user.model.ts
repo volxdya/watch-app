@@ -19,17 +19,22 @@ export class UserModel extends Model<Model, IUser> {
   @Column({
     type: DataType.STRING,
     allowNull: false,
-    unique: true
+    unique: true,
   })
   username: string;
 
+  @Column({
+    type: DataType.STRING,
+  })
+  visibleUsername: string;
+  
   
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
   password: string;
-
+  
   @Column({
     type: DataType.STRING,
     defaultValue: '',

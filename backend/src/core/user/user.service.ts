@@ -35,9 +35,11 @@ export class UserService extends Service<CreateUserDto> {
 
     await user.update({
       password: hash,
+      visibleUsername: user.username,
     });
 
     user.password = hash;
+    user.visibleUsername = user.username;
 
     return user;
   }
@@ -60,10 +62,11 @@ export class UserService extends Service<CreateUserDto> {
     return user;
   }
 
-  async test() {
-    const users = await this.userRepository.findAll({
-      where: { id: 1 },
-      limit: 1,
-    });
+  async update(id: number, dto: Object) {
+    const user = await this.getOne(id);
+
+    await user.update(dto);
+
+    return await this.getOne(id);
   }
 }

@@ -9,6 +9,7 @@ module.exports = {
         {
           username: 'user1',
           description: 'User 1 description',
+          visibleUsername: user1.username,
           avatar: '',
           password: '$[4[FG{G{}{}{G}QG',
           createdAt: new Date(),
@@ -18,6 +19,7 @@ module.exports = {
           username: 'user2',
           password: '$[4[FG{G{}{}{G}QG',
           description: 'User 2 description',
+          visibleUsername: user2.username,
           avatar: '',
           createdAt: new Date(),
           updatedAt: new Date(),

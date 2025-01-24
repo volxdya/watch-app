@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Param,
+  Patch,
   Post,
   Put,
   SetMetadata,
@@ -49,5 +50,10 @@ export class UserController extends AController<UserService> {
   @SetMetadata('isPublic', true)
   async register(@Body() dto: CreateUserDto) {
     return this.userService.register(dto);
+  }
+
+  @Patch('/updateUser/:id')
+  async update(@Param('id') id: number, @Body() dto: Object) {
+    return this.userService.update(id, dto);
   }
 }

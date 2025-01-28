@@ -57,4 +57,10 @@ export class VideoModel extends Model<
     type: DataType.STRING,
   })
   description: string;
+
+  @Column({
+    type: DataType.INTEGER,
+    defaultValue: 0
+  })
+  views: number;
 }

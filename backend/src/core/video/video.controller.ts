@@ -40,4 +40,9 @@ export class VideoController extends AController<VideoService> {
   async deleteVideo(@Param('videoId') videoId: number) {
     return this.videoService.deleteVideo(videoId);
   }
+
+  @Post('/watch')
+  async watch(@Body('videoId') videoId: number) {
+    return this.videoService.watch(videoId);
+  }
 }

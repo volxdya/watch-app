@@ -59,4 +59,15 @@ export class VideoService extends Service<CreateVideoDto> {
 
     return video;
   }
+
+  async watch(videoId: number) {
+    const video = await this.getOne(videoId);
+    await video.update({
+      views: video.views + 1,
+    });
+
+    video.views = video.views + 1;
+    
+    return video;
+  }
 }

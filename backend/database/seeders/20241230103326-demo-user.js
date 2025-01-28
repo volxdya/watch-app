@@ -44,7 +44,7 @@ module.exports = {
           title: 'Video 2 for user 1',
           userId: user1.id,
           videoFile: 'test',
-          description: 'nide video!',
+          description: 'nice video!',
           createdAt: new Date(),
           updatedAt: new Date(),
         },

@@ -1,4 +1,7 @@
 import { SequelizeModuleOptions } from '@nestjs/sequelize';
+import { CommentaryModel } from 'src/core/commentary/commentary.model';
+import { UserModel } from 'src/core/user';
+import { VideoModel } from 'src/core/video';
 
 class SEQUALIZE_CONFIG {
   port: number = Number(process.env.POSTGRES_PORT);
@@ -18,5 +21,5 @@ export const SEQUALIZE_OPTIONS: SequelizeModuleOptions = {
   password: password,
   database: db,
   autoLoadModels: true,
-  models: [],
+  models: [UserModel, VideoModel, CommentaryModel],
 };

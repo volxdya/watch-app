@@ -25,7 +25,7 @@ export function usersFetch(): Promise<Users> {
     })
       // Парсим данные
       .then((response) => response.json())
-
+ 
       // Валидируем данные
       .then((data) => Users.parse(data))
   );

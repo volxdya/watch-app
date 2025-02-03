@@ -29,12 +29,13 @@ class Video {
       updatedAt: new Date(8.64e15),
       avatar: '',
       description: '',
+      visibleUsername: ''
     },
   };
 
   allVideos: IVideo[] = [];
 
-  async getOneVideo(videoId: number) {
+  async getOneVideo(videoId: number): Promise<void> {
     await getRequest('video', 'get_one', videoId).then(
       (resp: AxiosResponse) => {
         this.requestVideo = resp.data;
@@ -42,7 +43,7 @@ class Video {
     );
   }
 
-  async getAllVideos() {
+  async getAllVideos(): Promise<void> {
     if (this.allVideos.length > 0) return;
 
     await getRequest('video', 'get_all').then((resp: AxiosResponse) => {

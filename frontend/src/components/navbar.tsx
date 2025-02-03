@@ -59,18 +59,18 @@ export const Navbar = observer(() => {
 
   const [isSignIn, setIsSignIn] = useState(false);
 
-  const usernameRef = useRef(null);
-  const passwordRef = useRef(null);
+  const usernameRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
 
   const userData = user.userData;
   const me = user.me;
 
-  function handleChangeIsSignIn() {
+  function handleChangeIsSignIn(): void {
     setIsSignIn(!isSignIn);
   }
 
   // TODO вынести эти функции
-  async function login() {
+  async function login(): Promise<void> {
     const request = await postRequest('auth', 'signIn', {
       username: loginValue,
       password: passwordValue,
@@ -82,7 +82,7 @@ export const Navbar = observer(() => {
     }
   }
 
-  async function register() {
+  async function register(): Promise<void> {
     await postRequest('user', 'register', {
       username: loginValue,
       password: passwordValue,
@@ -95,12 +95,12 @@ export const Navbar = observer(() => {
   }
 
   // TODO: сделать как минимум рабочей логику фокуса, обработать ошибки, как максимум - сделать более разумный код, пока что этот компонент полностью - шлак
-  function handleFocus() {
+  function handleFocus(): void {
     usernameRef.current.blur();
     passwordRef.current.focus();
   }
 
-  function onEnter(event: KeyboardEvent) {
+  function onEnter(event: KeyboardEvent): void {
     console.log(event.key);
 
     if (event.key === 'Enter') {

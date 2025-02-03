@@ -41,17 +41,16 @@ class User {
     visibleUsername: ''
   };
 
-  getToken() {
+  getToken(): void {
     const token = getItem('token');
 
     if (token) {
       const decoded: Payload = jwtDecode(token);
-      console.log(decoded);
       this.userData = decoded;
     }
   }
 
-  async getOneUser(username: string) {
+  async getOneUser(username: string): Promise<void> {
     await getRequest('user', 'findByUsername', username)
       .then((resp) => {
         this.requestUser = resp.data;
@@ -61,7 +60,7 @@ class User {
       });
   }
 
-  async getMe() {
+  async getMe(): Promise<void> {
     await getRequest('user', 'get_one', this.userData.id)
       .then((resp) => {
         this.me = resp.data;

@@ -11,7 +11,7 @@ export async function getRequest(
   prefix: Prefixes,
   method: GetMethods,
   byFind?: number | string,
-) {
+): Promise<AxiosResponse> {
   const response: AxiosResponse = await axios.get(
     `/api/${prefix}/${method}/${byFind ? byFind : ''}`,
     header,
@@ -24,7 +24,7 @@ export async function postRequest(
   prefix: Prefixes,
   method: PostMethods,
   data: any,
-) {
+): Promise<AxiosResponse> {
   const response: AxiosResponse = await axios.post(
     `/api/${prefix}/${method}`,
     data,
@@ -38,7 +38,7 @@ export async function deleteRequest(
   prefix: Prefixes,
   method: DeleteMethods,
   id: number,
-) {
+): Promise<AxiosResponse> {
   const response: AxiosResponse = await axios.delete(
     `/api/${prefix}/${method}/${id}`,
     header,
@@ -52,7 +52,7 @@ export async function patchRequest(
   method: PatchMethods,
   id: number,
   data: any,
-) {
+): Promise<AxiosResponse> {
   const response: AxiosResponse = await axios.patch(
     `/api/${prefix}/${method}/${id}`,
     data,

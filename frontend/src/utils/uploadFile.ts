@@ -13,7 +13,7 @@ export const uploadFile = async (
   file: any,
   fn: () => void,
   upload: Prefixes,
-) => {
+): Promise<void> => {
   stopDefault(e);
 
   if (!file) {

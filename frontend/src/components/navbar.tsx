@@ -90,14 +90,22 @@ export const Navbar = observer(() => {
       setLoginValue('');
       setPasswordValue('');
       handleChangeIsSignIn();
-      usernameRef.current.focus();
+      if (usernameRef.current instanceof HTMLInputElement) {
+        usernameRef.current.focus();
+      }
     });
   }
 
   // TODO: сделать как минимум рабочей логику фокуса, обработать ошибки, как максимум - сделать более разумный код, пока что этот компонент полностью - шлак
   function handleFocus(): void {
-    usernameRef.current.blur();
-    passwordRef.current.focus();
+    if (
+      usernameRef.current instanceof HTMLInputElement &&
+      passwordRef.current instanceof HTMLInputElement
+    ) {
+      usernameRef.current.blur();
+      passwordRef.current.focus();
+    }
+
   }
 
   function onEnter(event: KeyboardEvent): void {

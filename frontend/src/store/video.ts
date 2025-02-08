@@ -1,11 +1,21 @@
-import { IVideo } from '@/types/video';
+import { IEntity } from '@/types/db-entity';
+import { User } from '@/types/user';
 import { getRequest } from '@/utils/request';
 import { AxiosResponse } from 'axios';
 import { makeAutoObservable } from 'mobx';
 
+export interface IVideo extends IEntity {
+  title: string;
+  userId: number;
+  description: string;
+  videoFile: string;
+  user: User;
+}
+
 interface IVideoStore extends IVideo {
   temporaryUrl: string;
 }
+
 
 class Video {
   constructor() {
@@ -25,9 +35,9 @@ class Video {
       id: 0,
       username: '',
       videos: [],
-      createdAt: new Date(8.64e15),
-      updatedAt: new Date(8.64e15),
+      createdAt: '',
       avatar: '',
+      password: '',
       description: '',
       visibleUsername: ''
     },

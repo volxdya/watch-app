@@ -2,9 +2,10 @@ import { makeAutoObservable } from 'mobx';
 import { jwtDecode } from 'jwt-decode';
 import { Payload } from '@/types/token-payload';
 import { getItem } from '@/utils/localStorage';
-import { IUser } from '@/types/user';
 import { getRequest } from '@/utils/request';
 import { AxiosError } from 'axios';
+import { User as UserType } from '@/types/user';
+import { meFetch } from '@/api/User';
 
 class User {
   constructor() {
@@ -18,27 +19,27 @@ class User {
     description: '',
   };
 
-  requestUser: IUser = {
+  requestUser: UserType = {
     id: 0,
     username: '',
     videos: [],
-    createdAt: new Date(8.64e15),
-    updatedAt: new Date(8.64e15),
+    createdAt: '',
     avatar: '',
+    password: '',
     description: '',
     visibleUsername: ''
 
   };
 
-  me: IUser = {
+  me: UserType = {
     videos: [],
     id: 0,
     username: '',
     avatar: '',
     description: '',
-    createdAt: new Date(8.64e15),
-    updatedAt: new Date(8.64e15),
-    visibleUsername: ''
+    createdAt: '',
+    visibleUsername: '',
+    password: ''
   };
 
   getToken(): void {
@@ -61,13 +62,7 @@ class User {
   }
 
   async getMe(): Promise<void> {
-    await getRequest('user', 'get_one', this.userData.id)
-      .then((resp) => {
-        this.me = resp.data;
-      })
-      .catch((error: AxiosError) => {
-        console.log(error.message);
-      });
+    this.me = await meFetch();
   }
 }
 

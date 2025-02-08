@@ -1,17 +1,17 @@
-import { usersFetch } from "@/api/User";
 import { useEffect } from "react"
 import { useQuery } from '@tanstack/react-query';
 import { queryClient } from "@/api/queryClient";
+import { meFetch } from "@/api/User";
 
 
 export default function Test() {
     const userListQuery = useQuery({
-        queryFn: () => usersFetch(),
+        queryFn: () => meFetch(),
         queryKey: ["users"]
     }, queryClient);
 
     useEffect(() => {
-        usersFetch();
+        meFetch();
     }, []);
 
     switch(userListQuery.status) {

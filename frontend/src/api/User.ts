@@ -1,32 +1,23 @@
-import { z } from 'zod';
+import user from '@/store/user';
+import { User, UserSchema } from '@/types/user';
+import { getItem } from '@/utils/localStorage';
 
-const END_POINT = 'https://api.escuelajs.co/api/v1/users';
+const myHeaders = new Headers();
 
-const UserSchema = z.object({
-  id: z.number(),
-  name: z.string(),
-  email: z.string(),
-  avatar: z.string(),
-  creationAt: z.string(),
-  updatedAt: z.string(),
-});
+myHeaders.append('Authorization', `Bearer ${getItem('token')}`);
 
-export type User = z.infer<typeof UserSchema>;
 
-const Users = z.array(UserSchema);
-
-export type Users = z.infer<typeof Users>;
-
-export function usersFetch(): Promise<Users> {
+export function meFetch(): Promise<User> {
   // Кидаем GET запрос на сервер
   return (
-    fetch(END_POINT, {
+    fetch(`http://localhost:8080/api/user/get_me/${user.userData.id}`, {
       method: 'GET',
+      headers: myHeaders
     })
       // Парсим данные
       .then((response) => response.json())
- 
+
       // Валидируем данные
-      .then((data) => Users.parse(data))
+      .then((data) => UserSchema.parse(data))
   );
 }

@@ -57,6 +57,8 @@
 > ### POSTGRES_PASSWORD
 >
 > ### POSTGRES_DATEBASE
+>
+> ### SECRET_JWT
 
 ### Установка зависимостей
 

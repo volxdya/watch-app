@@ -1,22 +1,17 @@
-import { useEffect } from "react"
-import { useQuery } from '@tanstack/react-query';
-import { queryClient } from "@/api/queryClient";
-import { meFetch } from "@/api/User";
-
+import { usersFetch } from '@/api/User';
+import FetchWrapper from '@/components/fetch-wrapper';
+import Footer from '@/components/footer';
+import { UsersType } from '@/types/user';
+import { Users } from './users';
 
 export default function Test() {
-    const userListQuery = useQuery({
-        queryFn: () => meFetch(),
-        queryKey: ["users"]
-    }, queryClient);
-
-    useEffect(() => {
-        meFetch();
-    }, []);
-
-    switch(userListQuery.status) {
-        case ('pending'): return 'Loading...'
-        case('error'): return userListQuery.error.message
-        case('success'): return 'OK'
-    }
+  return (
+    <FetchWrapper<UsersType>
+      props={{
+        content: <Users />,
+        key: ['users'],
+        fetchFn: usersFetch,
+      }}
+    />
+  );
 }

@@ -15,6 +15,6 @@ export const UserSchema = z.object({
 
 export type User = z.infer<typeof UserSchema>;
 
-const Users = z.array(UserSchema);
+export const Users = z.array(UserSchema);
 
-export type Users = z.infer<typeof Users>;
+export type UsersType = z.infer<typeof Users>;

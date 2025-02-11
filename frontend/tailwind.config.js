@@ -9,7 +9,7 @@ module.exports = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
-    "./node_modules/@heroui/theme/dist/components/(input-otp|form).js"
+    "./node_modules/@heroui/theme/dist/components/(input-otp|skeleton|form).js"
   ],
   theme: {
     extend: {},

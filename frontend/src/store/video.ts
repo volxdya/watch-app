@@ -1,5 +1,6 @@
 import { IEntity } from '@/types/db-entity';
 import { User } from '@/types/user';
+import { VideosType } from '@/types/video';
 import { getRequest } from '@/utils/request';
 import { AxiosResponse } from 'axios';
 import { makeAutoObservable } from 'mobx';
@@ -43,7 +44,7 @@ class Video {
     },
   };
 
-  allVideos: IVideo[] = [];
+  allVideos: VideosType = [];
 
   async getOneVideo(videoId: number): Promise<void> {
     await getRequest('video', 'get_one', videoId).then(

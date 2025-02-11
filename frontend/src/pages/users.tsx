@@ -1,6 +1,6 @@
 import { User, UsersType } from "@/types/user";
 
-export function Users({users}: {users: UsersType}) {
+export function UsersPage({users}: {users: UsersType}) {
     return (
         <div>
             {users.map((item: User) => {

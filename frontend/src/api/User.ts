@@ -1,5 +1,5 @@
 import user from '@/store/user';
-import { User, Users, UserSchema } from '@/types/user';
+import { User, Users, UserSchema, UsersType } from '@/types/user';
 import { getItem } from '@/utils/localStorage';
 
 const myHeaders = new Headers();
@@ -22,7 +22,7 @@ export function meFetch(): Promise<User> {
 }
 
 
-export function usersFetch(): Promise<Users> {
+export function usersFetch(): Promise<UsersType> {
   // Кидаем GET запрос на сервер
   return (
     fetch(`http://localhost:8080/api/user/get_all`, {

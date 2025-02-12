@@ -1,17 +1,27 @@
 import { Injectable } from '@nestjs/common';
-import ollama from 'ollama';
 import { GenerateDto } from './dto/GenerateDto';
+import { Mistral } from "@mistralai/mistralai";
 
 @Injectable()
 export class AiService {
-  model: string = process.env.AI_MODEL ?? 'llama3123123123';
+  apiKey: string = process.env.MISTRAL_KEY || 'secret';
+
+  mistral = new Mistral({
+    apiKey: this.apiKey
+  });
 
   async generate(dto: GenerateDto) {
-    const response = await ollama.chat({
-      model: this.model,
-      messages: [{ role: 'user', content: dto.message }],
+    const result = await this.mistral.chat.complete({
+      model: "mistral-small-latest",
+      stream: false,
+      messages: [
+        {
+          content: dto.message,
+          role: "user",
+        },
+      ],
     });
 
-    return response;
+    return result.choices[0].message.content;
   }
 }

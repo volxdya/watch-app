@@ -59,6 +59,8 @@
 > ### POSTGRES_DATEBASE
 >
 > ### SECRET_JWT
+>
+> ### MISTRAL_KEY
 
 ### Установка зависимостей
 

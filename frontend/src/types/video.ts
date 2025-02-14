@@ -19,7 +19,7 @@ export const VideoSchema = z.object({
   updatedAt: z.string()
 })
 
-export type Video = z.infer<typeof VideoSchema>;
+export type VideoType = z.infer<typeof VideoSchema>;
 
 export const Videos = z.array(VideoSchema);
 

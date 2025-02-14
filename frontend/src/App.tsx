@@ -11,10 +11,14 @@ import { useQuery } from '@tanstack/react-query';
 import { meFetch } from './api/User';
 import { queryClient } from './api/queryClient';
 import { Loader } from './components/loader';
+import { getItem } from './utils/localStorage';
 
 function App() {
   useEffect(() => {
     user.getToken();
+    if (!getItem('token')) {
+      user.getOneUser(user.userData.username);
+    }
   }, []);
 
   const dataListQuery = useQuery(
@@ -25,14 +29,16 @@ function App() {
     queryClient,
   );
 
-  switch (dataListQuery.status) {
-    case 'error':
-      return dataListQuery.error.message;
-    case 'pending':
-      console.log('pending...')
-      return <Loader />;
-    case 'success':
-      user.me = dataListQuery.data;
+  if (getItem('token')) {
+    switch (dataListQuery.status) {
+      case 'error':
+        return 'Необходимо авторизоваться';
+      case 'pending':
+        console.log('pending...');
+        return <Loader />;
+      case 'success':
+        user.me = dataListQuery.data;
+    }
   }
 
   return (

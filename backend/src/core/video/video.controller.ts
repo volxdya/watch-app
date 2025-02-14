@@ -2,8 +2,10 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   Param,
   Post,
+  SetMetadata,
   UploadedFile,
 } from '@nestjs/common';
 import { AController } from 'src/abstractions';
@@ -44,5 +46,11 @@ export class VideoController extends AController<VideoService> {
   @Post('/watch')
   async watch(@Body('videoId') videoId: number) {
     return this.videoService.watch(videoId);
+  }
+
+  @Get('/get_all')
+  @SetMetadata('isPublic', true)
+  async getAll() {
+    return this.videoService.getAll();
   }
 }

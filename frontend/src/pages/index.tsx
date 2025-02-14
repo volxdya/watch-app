@@ -2,7 +2,7 @@ import { queryClient } from '@/api/queryClient';
 import { videosFetch } from '@/api/Video';
 import DefaultLayout from '@/layouts/default';
 import VideoCard from '@/shared/VideoCard';
-import { Video } from '@/types/video';
+import { VideoType } from '@/types/video';
 import { useQuery } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
 import { Skeleton } from '@heroui/skeleton';
@@ -23,7 +23,7 @@ export const IndexPage = observer(() => {
         <DefaultLayout>
           <section className="flex flex-col gap-4">
             <div className="flex gap-12 flex-wrap justify-center">
-              {dataListQuery.data.map((item: Video) => {
+              {dataListQuery.data.map((item: VideoType) => {
                 return (
                   <VideoCard
                     id={item.id}

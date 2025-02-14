@@ -38,6 +38,7 @@ export class UserController extends AController<UserService> {
   }
 
   @Get('findByUsername/:username')
+  @SetMetadata('isPublic', true)
   async findByUsername(@Param('username') username: string) {
     return this.userService.otherFind('username', username);
   }

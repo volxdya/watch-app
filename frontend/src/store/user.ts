@@ -4,7 +4,7 @@ import { Payload } from '@/types/token-payload';
 import { getItem } from '@/utils/localStorage';
 import { getRequest } from '@/utils/request';
 import { AxiosError } from 'axios';
-import { User as UserType } from '@/types/user';
+import { UserType } from '@/types/user';
 import { meFetch } from '@/api/User';
 
 class User {

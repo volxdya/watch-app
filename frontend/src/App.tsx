@@ -1,5 +1,4 @@
 import { Route, Routes } from 'react-router-dom';
-
 import { IndexPage } from '@/pages/index';
 import { useEffect } from 'react';
 import user from './store/user';
@@ -8,12 +7,33 @@ import { VideoPage } from './pages/video';
 import { StudioPage } from './pages/studio';
 import { SettingsPage } from './pages/settings';
 import Test from './pages/test';
+import { useQuery } from '@tanstack/react-query';
+import { meFetch } from './api/User';
+import { queryClient } from './api/queryClient';
+import { Loader } from './components/loader';
 
 function App() {
   useEffect(() => {
     user.getToken();
-    user.getMe();
   }, []);
+
+  const dataListQuery = useQuery(
+    {
+      queryFn: meFetch,
+      queryKey: ['me'],
+    },
+    queryClient,
+  );
+
+  switch (dataListQuery.status) {
+    case 'error':
+      return dataListQuery.error.message;
+    case 'pending':
+      console.log('pending...')
+      return <Loader />;
+    case 'success':
+      user.me = dataListQuery.data;
+  }
 
   return (
     <Routes>

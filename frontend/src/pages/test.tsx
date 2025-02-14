@@ -5,7 +5,7 @@ export default function Test() {
   return (
     <FetchWrapper<UsersType>
       props={{
-        content: 'tesst',
+        content: 'OK',
         key: ['users'],
         fetchFn: usersFetch,
       }}

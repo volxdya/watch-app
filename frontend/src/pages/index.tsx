@@ -2,19 +2,13 @@ import { queryClient } from '@/api/queryClient';
 import { videosFetch } from '@/api/Video';
 import DefaultLayout from '@/layouts/default';
 import VideoCard from '@/shared/VideoCard';
-import video from '@/store/video';
 import { Video } from '@/types/video';
 import { useQuery } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
-import { useEffect } from 'react';
 import { Skeleton } from '@heroui/skeleton';
 import { Card } from '@nextui-org/card';
 
 export const IndexPage = observer(() => {
-  useEffect(() => {
-    video.getAllVideos();
-  }, []);
-
   const dataListQuery = useQuery(
     {
       queryFn: videosFetch,
@@ -22,10 +16,6 @@ export const IndexPage = observer(() => {
     },
     queryClient,
   );
-
-  useEffect(() => {
-    videosFetch();
-  }, []);
 
   switch (dataListQuery.status) {
     case 'success':
@@ -57,9 +47,9 @@ export const IndexPage = observer(() => {
           <DefaultLayout>
             <section className="flex flex-col gap-4">
               <div className="flex gap-12 flex-wrap justify-center">
-                {new Array(10).fill('0').map(() => {
+                {new Array(10).fill('0').map((index: number) => {
                   return (
-                    <Card className="w-[200px] space-y-5 p-4" radius="lg">
+                    <Card className="w-[200px] space-y-5 p-4" radius="lg" key={index}>
                       <Skeleton className="rounded-lg">
                         <div className="h-24 rounded-lg bg-default-300" />
                       </Skeleton>

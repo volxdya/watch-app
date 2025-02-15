@@ -1,6 +1,5 @@
 import { z } from 'zod';
-
-const VideoSchema = z.object({});
+import { VideoSchemaNoUser } from './video';
 
 export const UserSchema = z.object({
   id: z.number(),
@@ -9,7 +8,7 @@ export const UserSchema = z.object({
   visibleUsername: z.string(),
   password: z.string(),
   username: z.string(),
-  videos: z.array(VideoSchema),
+  videos: z.array(VideoSchemaNoUser),
   description: z.string()
 });
 

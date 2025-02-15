@@ -19,7 +19,7 @@ import { queryClient } from '@/api/queryClient';
 import { oneUserFetch } from '@/api/User';
 import { Loader } from '@/components/loader';
 import { UserType } from '@/types/user';
-import { VideoType } from '@/types/video';
+import { VideoTypeNoUser } from '@/types/video';
 import user from '@/store/user';
 
 export const ProfilePage = observer(() => {
@@ -43,6 +43,8 @@ export const ProfilePage = observer(() => {
   switch (dataListQuery.status) {
     case 'success':
       const fetchedUser: UserType = dataListQuery.data;
+
+      console.log(fetchedUser);
 
       return (
         <DefaultLayout>
@@ -103,20 +105,22 @@ export const ProfilePage = observer(() => {
               <hr className="w-96" />
 
               <div className="flex gap-12 flex-wrap justify-center mt-4">
-                {fetchedUser.videos.map((item: VideoType, index: number) => {
-                  return (
-                    <VideoCard
-                      key={index}
-                      w={96}
-                      h={100}
-                      id={item.id}
-                      title={item.title}
-                      preview="https://nextui.org/images/card-example-5.jpeg"
-                      channel={fetchedUser.username}
-                      avatarChannel="https://nextui.org/images/breathing-app-icon.jpeg"
-                    />
-                  );
-                })}
+                {fetchedUser.videos.map(
+                  (item: VideoTypeNoUser, index: number) => {
+                    return (
+                      <VideoCard
+                        key={index}
+                        w={96}
+                        h={100}
+                        id={item.id}
+                        title={item.title}
+                        preview="https://nextui.org/images/card-example-5.jpeg"
+                        channel={fetchedUser.username}
+                        avatarChannel="https://nextui.org/images/breathing-app-icon.jpeg"
+                      />
+                    );
+                  },
+                )}
               </div>
             </section>
           ) : (

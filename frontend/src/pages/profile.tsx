@@ -114,9 +114,8 @@ export const ProfilePage = observer(() => {
                         h={100}
                         id={item.id}
                         title={item.title}
-                        preview="https://nextui.org/images/card-example-5.jpeg"
                         channel={fetchedUser.username}
-                        avatarChannel="https://nextui.org/images/breathing-app-icon.jpeg"
+                        avatarChannel={fetchedUser.avatar}
                       />
                     );
                   },

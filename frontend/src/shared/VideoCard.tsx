@@ -1,13 +1,12 @@
 import { Card, CardFooter, CardHeader } from '@nextui-org/card';
-import { Button } from '@nextui-org/react';
 import { Image } from '@nextui-org/image';
 import { Link } from '@nextui-org/link';
+import { getFileUrl } from '@/utils/getFileUrl';
 
 interface Props {
   w: number;
   h: number;
   title: string;
-  preview: string;
   channel: string;
   avatarChannel: string;
   id: number;
@@ -17,11 +16,12 @@ export default function VideoCard({
   w,
   h,
   title,
-  preview,
   channel,
   avatarChannel,
   id,
 }: Props) {
+  const temporaryPreivew: string = 'https://random-image-pepebigotes.vercel.app/api/random-image';
+
   return (
     <Link href={`/video/${id}`}>
       <Card
@@ -35,22 +35,19 @@ export default function VideoCard({
           removeWrapper
           alt="Relaxing app background"
           className="z-0 w-full h-full object-cover"
-          src={preview}
+          src={temporaryPreivew}
         />
         <CardFooter className="absolute bg-black/40 bottom-0 z-10 border-t-1 border-default-600 dark:border-default-100">
           <div className="flex flex-grow gap-2 items-center">
             <Image
               alt="Breathing app icon"
               className="rounded-full w-10 h-11 bg-black"
-              src={avatarChannel}
+              src={getFileUrl(avatarChannel)}
             />
             <div className="flex flex-col">
               <p className="text-tiny text-white/60">{channel}</p>
             </div>
           </div>
-          <Button radius="full" size="sm">
-            Get App
-          </Button>
         </CardFooter>
       </Card>
     </Link>

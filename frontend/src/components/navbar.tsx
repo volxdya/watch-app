@@ -105,7 +105,6 @@ export const Navbar = observer(() => {
       usernameRef.current.blur();
       passwordRef.current.focus();
     }
-
   }
 
   function onEnter(event: KeyboardEvent): void {

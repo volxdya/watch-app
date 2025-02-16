@@ -1,5 +1,4 @@
 import DefaultLayout from '@/layouts/default';
-import user from '@/store/user';
 import video from '@/store/video';
 import { getFileUrl } from '@/utils/getFileUrl';
 import { Accordion, AccordionItem } from '@nextui-org/accordion';
@@ -16,7 +15,6 @@ export const VideoPage = observer(() => {
   useEffect(() => {
     if (videoId) {
       video.getOneVideo(Number(videoId));
-      user.getOneUser(storeVideo.user.username);
     }
   }, []);
 
@@ -40,7 +38,7 @@ export const VideoPage = observer(() => {
                 avatarProps={{
                   src: getFileUrl(storeVideo.user.avatar),
                   isBordered: true,
-                  size: 'xl',
+                  size: 'md',
                 }}
                 className="mt-3"
                 name={storeVideo.user.visibleUsername}

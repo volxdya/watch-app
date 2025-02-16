@@ -35,8 +35,8 @@ export const VideoSchemaNoUser = z.object({
   updatedAt: z.string()
 })
 
-export type VideoTypeNoUser = z.infer<typeof VideoSchema>;
+export type VideoTypeNoUser = z.infer<typeof VideoSchemaNoUser>;
 
-export const VideosNoUser = z.array(VideoSchema);
+export const VideosNoUser = z.array(VideoSchemaNoUser);
 
-export type VideosTypeNoUser = z.infer<typeof Videos>;
+export type VideosTypeNoUser = z.infer<typeof VideosNoUser>;

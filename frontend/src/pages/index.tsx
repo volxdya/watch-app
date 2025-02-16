@@ -30,9 +30,8 @@ export const IndexPage = observer(() => {
                     w={96}
                     h={123}
                     title={item.title}
-                    preview="https://nextui.org/images/card-example-5.jpeg"
                     channel={item.user.visibleUsername}
-                    avatarChannel="https://nextui.org/images/breathing-app-icon.jpeg"
+                    avatarChannel={item.user.avatar}
                     key={item.id}
                   />
                 );

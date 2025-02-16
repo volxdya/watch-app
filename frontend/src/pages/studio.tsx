@@ -1,8 +1,6 @@
 import DefaultLayout from '@/layouts/default';
 import { StudioCard } from '@/shared/StudioCard';
 import user from '@/store/user';
-import { IUser } from '@/types/user';
-import { IVideo } from '@/types/video';
 import { getItem } from '@/utils/localStorage';
 import { onChange } from '@/utils/onChange';
 import { postRequest } from '@/utils/request';
@@ -24,6 +22,8 @@ import { Pagination } from '@nextui-org/react';
 import { AxiosResponse } from 'axios';
 import { uploadFile } from '@/utils/uploadFile';
 import { Textarea } from '@nextui-org/input';
+import { UserType } from '@/types/user';
+import { VideoTypeNoUser } from '@/types/video';
 
 export const StudioPage = observer(() => {
   const [title, setTitle] = useState('');
@@ -33,7 +33,7 @@ export const StudioPage = observer(() => {
   const [videoId, setVideoId] = useState(0);
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 
-  const me: IUser = user.me;
+  const me: UserType = user.me;
 
   const handleSubmitVideo = async (e: FormEvent) => {
     stopDefault(e);
@@ -113,6 +113,7 @@ export const StudioPage = observer(() => {
                               value={title}
                               className="mt-2"
                               isRequired
+                              maxLength={255}
                               onChange={onChange(setTitle)}
                             />
                             <Textarea
@@ -122,7 +123,11 @@ export const StudioPage = observer(() => {
                               isRequired
                               value={description}
                               onChange={onChange(setDescription)}
+                              isInvalid={description.length === 255}
+                              errorMessage='Максимальная длина - 255'
+                              maxLength={255}
                             />
+                            <p className='text-sm m-0 p-0'>{description.length}/255</p>
                             <Button type="submit" className="w-full mt-5">
                               Next
                             </Button>
@@ -159,7 +164,7 @@ export const StudioPage = observer(() => {
             </Modal>
 
             <div className="mt-5">
-              {me.videos.map((item: IVideo) => (
+              {me.videos.map((item: VideoTypeNoUser) => (
                 <StudioCard
                   id={item.id}
                   title={item.title}

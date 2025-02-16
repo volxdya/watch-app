@@ -21,6 +21,8 @@ interface Props {
 }
 
 export function StudioCard({ title, description, channel, id }: Props) {
+  const temporaryPreivew: string = 'https://random-image-pepebigotes.vercel.app/api/random-image';
+
   const iconClasses =
     'text-xl text-default-500 pointer-events-none flex-shrink-0';
 
@@ -36,7 +38,7 @@ export function StudioCard({ title, description, channel, id }: Props) {
           alt="nextui logo"
           height={40}
           radius="sm"
-          src="https://avatars.githubusercontent.com/u/86160567?s=200&v=4"
+          src={temporaryPreivew}
           width={40}
         />
         <div className="flex flex-col">

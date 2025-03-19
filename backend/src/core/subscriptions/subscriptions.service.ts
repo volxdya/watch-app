@@ -27,23 +27,19 @@ export class SubscriptionsService {
     });
   }
 
+  // Допилить
   public async subscribe(dto: CreateSubscriptionsDto) {
-    const subscription = await this.subscriptionsRepository.findOne({
-      where: { id: dto.userId },
+    const subscriber = await this.subscriptionsRepository.findOne({
+      where: { userId: dto.userId },
       include: { all: true },
     });
 
-    const user = await this.userRepository.findOne({
+    const userForSubscribe = await this.userRepository.findOne({
       where: { id: dto.subscriptionId },
     });
 
-    subscription.set('subscriptions', [user]);
+    await subscriber.$add('subscriptions', [userForSubscribe]);
 
-    const subscription2 = await this.subscriptionsRepository.findOne({
-      where: { id: dto.userId },
-      include: { all: true },
-    });
-
-    return subscription2;
+    return subscriber;
   }
 }

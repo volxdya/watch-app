@@ -7,6 +7,7 @@ import { Module } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
 import { CommentaryModule } from './commentary/commentary.module';
+import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { CommentaryModule } from './commentary/commentary.module';
     AuthModule,
     JwtModule,
     CommentaryModule,
+    SubscriptionsModule,
   ],
 })
 export class AppModule {}

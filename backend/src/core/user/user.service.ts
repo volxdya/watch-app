@@ -7,10 +7,12 @@ import { FilesService } from '../files/files.service';
 import { ServiceOptions } from 'src/types';
 import { VideoModel } from '../video';
 import * as bcrypt from 'bcrypt';
+import { SubscriptionsModel } from '../subscriptions/subscriptions.model';
+import { SubscriptionsService } from '../subscriptions/subscriptions.service';
 
 export const userServiceOptions: ServiceOptions = {
   findAll: {
-    include: [VideoModel],
+    include: [VideoModel, SubscriptionsModel],
   },
   findOne: {
     include: [VideoModel],
@@ -25,6 +27,7 @@ export class UserService extends Service<CreateUserDto> {
   constructor(
     @InjectModel(UserModel) private readonly userRepository: typeof UserModel,
     private readonly filesService: FilesService,
+    private readonly subscriptionService: SubscriptionsService,
   ) {
     super(userRepository, userServiceOptions);
   }
@@ -62,7 +65,7 @@ export class UserService extends Service<CreateUserDto> {
     return user;
   }
 
-  async update(id: number, dto: Object) {
+  async update(id: number, dto: object) {
     const user = await this.getOne(id);
 
     await user.update(dto);

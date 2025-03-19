@@ -55,7 +55,7 @@ export class UserController extends AController<UserService> {
   }
 
   @Patch('/update/:id')
-  async update(@Param('id') id: number, @Body() dto: Object) {
+  async update(@Param('id') id: number, @Body() dto: object) {
     return this.userService.update(id, dto);
   }
 

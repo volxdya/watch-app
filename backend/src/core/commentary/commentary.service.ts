@@ -26,5 +26,4 @@ export class CommentaryService extends Service<CreateCommentaryDto> {
   ) {
     super(commentaryRepository, commentaryServiceOptions);
   }
-
 }

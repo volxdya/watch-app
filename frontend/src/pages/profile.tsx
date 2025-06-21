@@ -44,8 +44,6 @@ export const ProfilePage = observer(() => {
     case 'success':
       const fetchedUser: UserType = dataListQuery.data;
 
-      console.log(fetchedUser);
-
       return (
         <DefaultLayout>
           {userName ? (

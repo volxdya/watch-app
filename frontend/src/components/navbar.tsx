@@ -108,7 +108,7 @@ export const Navbar = observer(() => {
   }
 
   function onEnter(event: KeyboardEvent): void {
-    console.log(event.key);
+    (event.key);
 
     if (event.key === 'Enter') {
       handleFocus();

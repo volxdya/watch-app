@@ -34,7 +34,7 @@ function App() {
       case 'error':
         return 'Необходимо авторизоваться';
       case 'pending':
-        console.log('pending...');
+        ('pending...');
         return <Loader />;
       case 'success':
         user.me = dataListQuery.data;

@@ -57,7 +57,7 @@ class User {
         this.requestUser = resp.data;
       })
       .catch((error: AxiosError) => {
-        console.log(error.message);
+        (error.message);
       });
   }
 

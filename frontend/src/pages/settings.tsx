@@ -20,9 +20,6 @@ export const SettingsPage = observer(() => {
   const [description, setDescription] = useState(me.description);
   const [isLoading, setIsLoading] = useState(false);
 
-  console.log(visibleUsername, description);
-  console.log(me);
-
   function helper() {
     setSelectedFile(null);
     user.getMe();

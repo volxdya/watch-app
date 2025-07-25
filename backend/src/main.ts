@@ -8,9 +8,11 @@ import { AuthGuard } from './utils/http/guards';
 import { JwtService } from '@nestjs/jwt';
 import { SwaggerModule } from '@nestjs/swagger';
 import { SWAGGER_CONFIG } from './config';
+import { Logger } from '@nestjs/common';
 
 async function bootstrap() {
   const PORT: number = Number(process.env.SERVER_PORT) ?? 1234;
+  const logger = new Logger('main', { timestamp: true });
 
   const app = await NestFactory.create(AppModule);
   app.enableCors();
@@ -29,10 +31,20 @@ async function bootstrap() {
   app.useGlobalGuards(new AuthGuard(new Reflector(), new JwtService()));
 
   await app.listen(PORT, async () => {
-    console.log(`server -> ${await app.getUrl()}`);
-    console.log(`graphql playground -> ${await app.getUrl()}/api/graphql`);
-    console.log(`documentation -> ${await app.getUrl()}/docs`);
+    logger.debug(`server -> ${await app.getUrl()}`);
+    logger.debug(`graphql playground -> ${await app.getUrl()}/api/graphql`);
+    logger.debug(`documentation -> ${await app.getUrl()}/docs`);
   });
+
+  const shutdown = async (signal: string) => {
+    logger.warn(`Received shutdown signal: ${signal}`);
+    await app.close();
+    logger.debug('Server gracefully shut down');
+    process.exit(0);
+  };
+
+  process.on('SIGINT', () => shutdown('SIGINT'));
+  process.on('SIGTERM', () => shutdown('SIGTERM'));
 }
 
 bootstrap();

@@ -5,7 +5,7 @@ export const VideoSchema = z.object({
   title: z.string(),
   userId: z.number(),
   description: z.string(),
-  videoFile: z.string(),
+  videoFile: z.string().nullable(),
   user: z.object({
     id: z.number(),
     avatar: z.string(),
@@ -13,10 +13,10 @@ export const VideoSchema = z.object({
     visibleUsername: z.string(),
     password: z.string(),
     username: z.string(),
-    description: z.string()
+    description: z.string(),
   }),
   createdAt: z.string(),
-  updatedAt: z.string()
+  updatedAt: z.string(),
 });
 
 export type VideoType = z.infer<typeof VideoSchema>;
@@ -32,8 +32,8 @@ export const VideoSchemaNoUser = z.object({
   description: z.string(),
   videoFile: z.string(),
   createdAt: z.string(),
-  updatedAt: z.string()
-})
+  updatedAt: z.string(),
+});
 
 export type VideoTypeNoUser = z.infer<typeof VideoSchemaNoUser>;
 

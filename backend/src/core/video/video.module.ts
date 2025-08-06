@@ -7,9 +7,14 @@ import { UserModel } from '../user';
 import { FilesModule } from '../files/files.module';
 import { CommentaryModel } from '../commentary/commentary.model';
 import { VideoResolver } from './video.resolver';
+import { BotModule } from '../bot/bot.module';
 
 @Module({
-  imports: [SequelizeModule.forFeature([VideoModel, UserModel, CommentaryModel]), FilesModule],
+  imports: [
+    SequelizeModule.forFeature([VideoModel, UserModel, CommentaryModel]),
+    FilesModule,
+    BotModule,
+  ],
   providers: [VideoService, VideoResolver],
   controllers: [VideoController],
 })

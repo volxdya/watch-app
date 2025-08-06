@@ -9,6 +9,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { CommentaryModule } from './commentary/commentary.module';
 import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 import { AppController } from './app.controller';
+import { BotModule } from './bot/bot.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { AppController } from './app.controller';
     JwtModule,
     CommentaryModule,
     SubscriptionsModule,
+    BotModule,
   ],
   controllers: [AppController],
 })

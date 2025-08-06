@@ -6,6 +6,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { UserModel } from '../user';
 import { ServiceOptions } from 'src/types';
 import { FilesService } from '../files/files.service';
+import { BotService } from '../bot/bot.service';
 
 export const videoServiceOptions: ServiceOptions = {
   findAll: {
@@ -25,6 +26,7 @@ export class VideoService extends Service<CreateVideoDto> {
     @InjectModel(VideoModel)
     private readonly videoRepository: typeof VideoModel,
     private readonly filesService: FilesService,
+    private readonly botService: BotService,
   ) {
     super(videoRepository, videoServiceOptions);
   }
@@ -44,6 +46,8 @@ export class VideoService extends Service<CreateVideoDto> {
     });
 
     video.videoFile = videoPath;
+
+    await this.botService.notify(video.title);
 
     return video;
   }
@@ -67,7 +71,7 @@ export class VideoService extends Service<CreateVideoDto> {
     });
 
     video.views = video.views + 1;
-    
+
     return video;
   }
 }

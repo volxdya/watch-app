@@ -47,7 +47,12 @@ export class VideoService extends Service<CreateVideoDto> {
 
     video.videoFile = videoPath;
 
-    await this.botService.notify(video.title);
+    await this.botService.notify({
+      videoTitle: video.title,
+      videoUrl:
+        'https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley',
+      videoUser: video.user.username,
+    });
 
     return video;
   }

@@ -59,6 +59,8 @@
 > ### SECRET_JWT
 >
 > ### MISTRAL_KEY
+>
+> ### TOKEN # telegram-bot/.env
 
 ### Установка зависимостей
 
@@ -104,4 +106,18 @@ $ npm install
 
 ```
 $ npm run start:dev
+```
+
+<h2>Telegram bot</h2>
+
+### Установка зависимостей
+
+```
+$ pip install -r requirements.txt
+```
+
+### Запуск
+
+```
+$ python main.py
 ```

@@ -44,11 +44,23 @@ async def notify(request: Request):
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_chat.id
-    subscribers.add(user_id)
-    await context.bot.send_message(chat_id=user_id, text=f"Привет, {update.effective_chat.first_name}! Ты теперь подписан на уведомления.")
+    if user_id in subscribers:
+        await context.bot.send_message(chat_id=user_id, text=f"{update.effective_chat.first_name}, ты уже подписан на уведомления.")
+    else:
+        subscribers.add(user_id)
+        await context.bot.send_message(chat_id=user_id, text=f"Привет, {update.effective_chat.first_name}! Ты теперь подписан на уведомления.")
+
+async def unsubscribe(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user_id = update.effective_chat.id
+    if user_id not in subscribers:
+        await context.bot.send_message(chat_id=user_id, text=f"{update.effective_chat.first_name}, ты уже отписан от уведомлений.")
+    else:
+        subscribers.remove(user_id)
+        await context.bot.send_message(chat_id=user_id, text=f"{update.effective_chat.first_name}, ты успешно отписался от уведомлений. Чтобы   подписаться повторно просто пропишите /start")
 
 start_handler = CommandHandler("start", start)
-telegram_app.add_handler(start_handler)
+unsubscribe_handler = CommandHandler("unsubscribe", unsubscribe)
+telegram_app.add_handlers([start_handler, unsubscribe_handler])
 
 
 def run_fastapi():

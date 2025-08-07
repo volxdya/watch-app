@@ -10,7 +10,6 @@ import Test from './pages/test';
 import { useQuery } from '@tanstack/react-query';
 import { meFetch } from './api/User';
 import { queryClient } from './api/queryClient';
-import { Loader } from './components/loader';
 import { getItem } from './utils/localStorage';
 
 function App() {
@@ -29,17 +28,17 @@ function App() {
     queryClient,
   );
 
-  if (getItem('token')) {
-    switch (dataListQuery.status) {
-      case 'error':
-        return 'Необходимо авторизоваться';
-      case 'pending':
-        'pending...';
-        return <Loader />;
-      case 'success':
-        user.me = dataListQuery.data;
-    }
-  }
+  // if (getItem('token')) {
+  //   switch (dataListQuery.status) {
+  //     case 'error':
+  //       return 'Необходимо авторизоваться';
+  //     case 'pending':
+  //       'pending...';
+  //       return <Loader />;
+  //     case 'success':
+  //       user.me = dataListQuery.data;
+  //   }
+  // }
 
   return (
     <Routes>

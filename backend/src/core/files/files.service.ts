@@ -1,22 +1,24 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import * as fs from 'fs';
 import * as path from 'path';
 import { DeleteFilesDto } from './dto/DeleteFilesDto';
 
 @Injectable()
 export class FilesService {
+  private readonly logger = new Logger(FilesService.name);
+
   handleFileUpload(file: Express.Multer.File) {
     const filePath = `uploads/${file.filename}`;
-    return { message: 'File uploaded successfully', filePath };
+    return { message: 'Файл успешно загружен', filePath };
   }
 
   async deleteFile(path: string) {
     fs.unlink(path, (err) => {
       if (err) {
-        console.error('Ошибка удаления файла:', err);
+        this.logger.error('Ошибка удаления файла:', err);
         return;
       }
-      console.log('Файл успешно удален.');
+      this.logger.log(`Файл ${path} успешно удален.`);
     });
   }
 
@@ -25,7 +27,7 @@ export class FilesService {
 
     fs.readdir(directoryPath, (err, files) => {
       if (err) {
-        console.error('Ошибка чтения директории:', err);
+        this.logger.error('Ошибка чтения директории:', err);
         return;
       }
 

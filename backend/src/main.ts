@@ -32,7 +32,6 @@ async function bootstrap() {
 
   await app.listen(PORT, async () => {
     logger.debug(`server -> ${await app.getUrl()}`);
-    logger.debug(`graphql playground -> ${await app.getUrl()}/api/graphql`);
     logger.debug(`documentation -> ${await app.getUrl()}/docs`);
   });
 

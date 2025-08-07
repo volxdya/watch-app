@@ -11,6 +11,7 @@ import { Spinner } from '@nextui-org/spinner';
 import { stopDefault } from '@/utils/stopDefault';
 import { patchRequest } from '@/utils/request';
 import { onChange } from '@/utils/onChange';
+import { botConfig } from '@/config/site';
 
 export const SettingsPage = observer(() => {
   const me = user.me;
@@ -68,8 +69,12 @@ export const SettingsPage = observer(() => {
           <p className="text-2xl">Настройки канала</p>
         </div>
         <hr className="w-96" />
-        <p className='text-xl mt-5'>Ваш ID</p>
-        <InputOtp isReadOnly defaultValue={me.id.toString()} length={me.id.toString().length} />
+        <p className="text-xl mt-5">Ваш ID</p>
+        <InputOtp
+          isReadOnly
+          defaultValue={me.id.toString()}
+          length={me.id.toString().length}
+        />
         <p className="text-xl mt-5">Фото профиля</p>
         <Form onSubmit={updateData}>
           <div className="flex gap-5 items-center">
@@ -137,8 +142,14 @@ export const SettingsPage = observer(() => {
           />
 
           <Button type="submit" className="w-full mt-2">
-            Submit
+            Сохранить
           </Button>
+
+          <a href={botConfig.url} target="_blank" className="w-full">
+            <Button type="button" className="w-full mt-2" color="primary">
+              Привязать Telegram
+            </Button>
+          </a>
         </Form>
       </section>
     </DefaultLayout>

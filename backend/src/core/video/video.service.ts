@@ -10,6 +10,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { FilesService } from '../files/files.service';
 import { BotService } from '../bot/bot.service';
 import { CreateVideoDto } from './dto/create-video.dto';
+import { UserModel } from '../user';
 
 @Injectable()
 export class VideoService {
@@ -23,11 +24,14 @@ export class VideoService {
   private readonly logger = new Logger(VideoService.name);
 
   async findOne(videoId: number) {
-    return await this.videoRepository.findOne({ where: { id: videoId } });
+    return await this.videoRepository.findOne({
+      where: { id: videoId },
+      include: [UserModel],
+    });
   }
 
   async findAll(): Promise<VideoModel[]> {
-    return await this.videoRepository.findAll();
+    return await this.videoRepository.findAll({ include: { all: true } });
   }
 
   async create(dto: CreateVideoDto): Promise<VideoModel> {
@@ -44,7 +48,10 @@ export class VideoService {
 
     if (video === null) {
       await this.filesService.deleteFile(videoPath);
-      throw new HttpException("Video doesn't exists", HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        'Данного видео не существует',
+        HttpStatus.BAD_REQUEST,
+      );
     }
 
     await video.update({
@@ -61,7 +68,7 @@ export class VideoService {
         videoUser: video.user.username,
       });
     } catch (err) {
-      this.logger.error('Видео в бота не пришло!');
+      this.logger.error('Видео в бота не пришло!', err);
     }
 
     return video;

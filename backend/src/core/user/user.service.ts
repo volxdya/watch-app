@@ -5,6 +5,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { FilesService } from '../files/files.service';
 import * as bcrypt from 'bcrypt';
 import { UpdateUserDTO } from './dto/update-user.dto';
+import { VideoModel } from '../video';
 
 @Injectable()
 export class UserService {
@@ -21,12 +22,14 @@ export class UserService {
   async findOne(userId: number): Promise<UserModel> {
     return await this.userRepository.findOne({
       where: { id: userId },
+      include: [VideoModel],
     });
   }
 
   async findByUsername(username: string): Promise<UserModel> {
     return await this.userRepository.findOne({
       where: { username },
+      include: [VideoModel],
     });
   }
 

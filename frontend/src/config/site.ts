@@ -1,8 +1,11 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://localhost:8080';
+const baseUrl = 'http://localhost:8080';
+axios.defaults.baseURL = baseUrl;
 
 export type SiteConfig = typeof siteConfig;
+export type ApiConfig = typeof apiConfig;
+export type BotConfig = typeof botConfig;
 
 export const siteConfig = {
   name: 'Watch',
@@ -55,4 +58,12 @@ export const siteConfig = {
     github: 'https://github.com/volxdya/watch-app',
     discord: 'https://discord.gg/9b6yyZKmH4',
   },
+};
+
+export const apiConfig = {
+  baseUrl: `${baseUrl}/api`,
+};
+
+export const botConfig = {
+  url: 'https://t.me/watchpp_bot',
 };

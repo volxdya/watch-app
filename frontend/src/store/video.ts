@@ -1,5 +1,5 @@
 import { IEntity } from '@/types/db-entity';
-import { User } from '@/types/user';
+import { UserType } from '@/types/user';
 import { VideosType } from '@/types/video';
 import { getRequest } from '@/utils/request';
 import { AxiosResponse } from 'axios';
@@ -10,13 +10,12 @@ export interface IVideo extends IEntity {
   userId: number;
   description: string;
   videoFile: string;
-  user: User;
+  user: UserType;
 }
 
 interface IVideoStore extends IVideo {
   temporaryUrl: string;
 }
-
 
 class Video {
   constructor() {
@@ -40,14 +39,14 @@ class Video {
       avatar: '',
       password: '',
       description: '',
-      visibleUsername: ''
+      visibleUsername: '',
     },
   };
 
   allVideos: VideosType = [];
 
   async getOneVideo(videoId: number): Promise<void> {
-    await getRequest('video', 'get_one', videoId).then(
+    await getRequest('video', 'find_one', videoId).then(
       (resp: AxiosResponse) => {
         this.requestVideo = resp.data;
       },
@@ -57,7 +56,7 @@ class Video {
   async getAllVideos(): Promise<void> {
     if (this.allVideos.length > 0) return;
 
-    await getRequest('video', 'get_all').then((resp: AxiosResponse) => {
+    await getRequest('video', 'find_all').then((resp: AxiosResponse) => {
       this.allVideos = resp.data;
     });
   }

@@ -11,6 +11,8 @@ import { FilesService } from '../files/files.service';
 import { BotService } from '../bot/bot.service';
 import { CreateVideoDto } from './dto/create-video.dto';
 import { UserModel } from '../user';
+import { generate } from 'rxjs';
+import { generateUrl } from 'src/utils/algorithms/generateUrl';
 
 @Injectable()
 export class VideoService {
@@ -35,7 +37,19 @@ export class VideoService {
   }
 
   async create(dto: CreateVideoDto): Promise<VideoModel> {
-    return await this.videoRepository.create(dto);
+    const video: VideoModel = await this.videoRepository.create(dto);
+
+    const url: string = generateUrl(
+      'http',
+      process.env.FRONTEND_HOST,
+      Number(process.env.FRONTEND_PORT),
+      `video/${video.id}`,
+    );
+
+    video.set('url', url);
+    video.url = url;
+
+    return video;
   }
 
   async deleteOne(videoId: number): Promise<void> {
@@ -63,8 +77,7 @@ export class VideoService {
     try {
       await this.botService.notify({
         videoTitle: video.title,
-        videoUrl:
-          'https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley',
+        videoUrl: video.url,
         videoUser: video.user.username,
       });
     } catch (err) {

@@ -19,6 +19,7 @@ export interface VideoAttributes {
   description: string;
   videoFile: string;
   commenatires: CommentaryModel[];
+  url: string;
 }
 
 export interface VideoCreationAttributes extends VideoAttributes {}
@@ -70,4 +71,10 @@ export class VideoModel extends Model<
     defaultValue: 0,
   })
   views: number;
+
+  @Column({
+    type: DataType.STRING,
+    defaultValue: '',
+  })
+  url: string;
 }

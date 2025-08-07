@@ -8,6 +8,7 @@ from telegram import Update
 from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler
 
 load_dotenv()
+
 TOKEN_BOT = getenv("TOKEN")
 BOT_PORT = int(getenv("PORT"))
 BOT_HOST=getenv("HOST")
@@ -37,7 +38,7 @@ async def notify(request: Request):
             await telegram_app.bot.send_message(chat_id=user_id, parse_mode="HTML", text=f'''
                 Новое видео на канале {video_user}
             {video_title}
-            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley">Смотреть</a>
+            <a href={video_url}>Смотреть</a>
             ''')
         except Exception as e:
             logging.error(f"Ошибка отправки пользователю {user_id}: {e}")
@@ -70,3 +71,10 @@ def run_fastapi():
 if __name__ == '__main__':
     threading.Thread(target=run_fastapi).start()
     telegram_app.run_polling()
+    # people = get_people()
+    # if len(people) == 0:
+    #     create_people()
+    # people = get_people()
+
+    # for person in people:
+    #     print(f'{person.name} was born in {person.date_of_birth}')

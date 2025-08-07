@@ -29,6 +29,8 @@ import { CommentaryModel } from 'src/core/commentary/commentary.model';
       password: process.env.POSTGRES_PASSWORD,
       username: process.env.POSTGRES_USERNAME,
       autoLoadModels: true,
+      synchronize: true,
+      logging: true,
       models: [UserModel, VideoModel, CommentaryModel],
     }),
   ],

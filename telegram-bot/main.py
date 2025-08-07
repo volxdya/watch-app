@@ -29,25 +29,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 start_handler = CommandHandler("start", start)
 telegram_app.add_handler(start_handler)
 
-@api_app.post("/notify")
-async def notify(request: Request):
-    data = await request.json()
-    video_title = data.get("video_title")
-    video_user = data.get("video_user")
-    video_url = data.get("video_url")
-
-    for user_id in subscribers:
-        try:
-            await telegram_app.bot.send_message(chat_id=user_id, parse_mode="HTML", text=f'''
-                Новое видео на канале {video_user}
-            {video_title}
-            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley">Смотреть</a>
-            ''')
-        except Exception as e:
-            logging.error(f"Ошибка отправки пользователю {user_id}: {e}")
-
-    return {"status": "ok"}
-
 
 def run_fastapi():
     import uvicorn

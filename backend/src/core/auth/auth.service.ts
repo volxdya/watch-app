@@ -13,10 +13,7 @@ export class AuthService {
   ) {}
 
   async validateUser(dto: AuthDto) {
-    const user: UserModel = await this.userService.otherFind(
-      'username',
-      dto.username,
-    );
+    const user: UserModel = await this.userService.findByUsername(dto.username);
 
     if (!user) {
       throw new UnauthorizedException({

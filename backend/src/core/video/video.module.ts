@@ -6,7 +6,6 @@ import { VideoModel } from './video.model';
 import { UserModel } from '../user';
 import { FilesModule } from '../files/files.module';
 import { CommentaryModel } from '../commentary/commentary.model';
-import { VideoResolver } from './video.resolver';
 import { BotModule } from '../bot/bot.module';
 
 @Module({
@@ -15,7 +14,7 @@ import { BotModule } from '../bot/bot.module';
     FilesModule,
     BotModule,
   ],
-  providers: [VideoService, VideoResolver],
+  providers: [VideoService],
   controllers: [VideoController],
 })
 export class VideoModule {}

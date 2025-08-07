@@ -8,15 +8,23 @@ import {
   SetMetadata,
   UploadedFile,
 } from '@nestjs/common';
-import { AController } from 'src/abstractions';
 import { VideoService } from './video.service';
 import { UploadFiles } from 'src/utils/http/decorators';
 import { Docs } from 'src/utils/http/decorators/docs.decorator';
+import { CreateVideoDto } from './dto/create-video.dto';
 
 @Controller('video')
-export class VideoController extends AController<VideoService> {
-  constructor(private readonly videoService: VideoService) {
-    super(videoService, { title: 'video' });
+export class VideoController {
+  constructor(private readonly videoService: VideoService) {}
+
+  @Post('create')
+  @Docs({
+    summary: `create video to db`,
+    status: 200,
+    description: 'OK',
+  })
+  async create(@Body() dto: CreateVideoDto) {
+    return this.videoService.create(dto);
   }
 
   @Post('/upload')
@@ -48,9 +56,15 @@ export class VideoController extends AController<VideoService> {
     return this.videoService.watch(videoId);
   }
 
-  @Get('/get_all')
+  @Get('/find_all')
   @SetMetadata('isPublic', true)
   async getAll() {
-    return this.videoService.getAll();
+    return this.videoService.findAll();
+  }
+
+  @Get('/find_one/:id')
+  @SetMetadata('isPublic', true)
+  async findOne(@Param('id') id: number) {
+    return this.videoService.findOne(id);
   }
 }

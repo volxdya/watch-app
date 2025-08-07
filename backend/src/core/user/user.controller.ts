@@ -5,23 +5,20 @@ import {
   Param,
   Patch,
   Post,
-  Put,
   SetMetadata,
   UploadedFile,
   UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { AController } from '../../abstractions';
 import { UploadFiles } from 'src/utils/http/decorators';
-import { CreateUserDto } from './dto/CreateUserDto';
+import { CreateUserDto } from './dto/create-user.dto';
 import { Docs } from 'src/utils/http/decorators/docs.decorator';
 import { MeGuard } from 'src/utils/http/guards/me.guard';
+import { UpdateUserDTO } from './dto/update-user.dto';
 
 @Controller('user')
-export class UserController extends AController<UserService> {
-  constructor(private readonly userService: UserService) {
-    super(userService, { title: 'user' });
-  }
+export class UserController {
+  constructor(private readonly userService: UserService) {}
 
   @Post('upload')
   @UploadFiles('avatar')
@@ -40,7 +37,12 @@ export class UserController extends AController<UserService> {
   @Get('findByUsername/:username')
   @SetMetadata('isPublic', true)
   async findByUsername(@Param('username') username: string) {
-    return this.userService.otherFind('username', username);
+    return this.userService.findByUsername(username);
+  }
+
+  @Get('find_one/:id')
+  async findOne(@Param('id') id: number) {
+    return this.userService.findOne(id);
   }
 
   @Post('register')
@@ -54,14 +56,19 @@ export class UserController extends AController<UserService> {
     return this.userService.register(dto);
   }
 
-  @Patch('/update/:id')
-  async update(@Param('id') id: number, @Body() dto: object) {
+  @Patch('update/:id')
+  async update(@Param('id') id: number, @Body() dto: UpdateUserDTO) {
     return this.userService.update(id, dto);
   }
 
-  @Get('/get_me/:id')
+  @Get('get_me/:id')
   @UseGuards(MeGuard)
   async getMe(@Param('id') id: number) {
-    return this.getOne(id);
+    return this.userService.findOne(id);
+  }
+
+  @Get('find_all')
+  async findAll() {
+    return this.userService.findAll();
   }
 }

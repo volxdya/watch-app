@@ -12,7 +12,6 @@ export class FilesService {
 
   async deleteFile(path: string) {
     fs.unlink(path, (err) => {
-      // TODO: Написать пайп для обработки исключений.
       if (err) {
         console.error('Ошибка удаления файла:', err);
         return;
@@ -21,7 +20,6 @@ export class FilesService {
     });
   }
 
-  // Удаление файлов из директории
   async deleteDirectoryFiles(dto: DeleteFilesDto) {
     const directoryPath: string = dto.path;
 

@@ -7,7 +7,6 @@ import { Module } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
 import { CommentaryModule } from './commentary/commentary.module';
-import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 import { AppController } from './app.controller';
 import { BotModule } from './bot/bot.module';
 
@@ -21,7 +20,6 @@ import { BotModule } from './bot/bot.module';
     AuthModule,
     JwtModule,
     CommentaryModule,
-    SubscriptionsModule,
     BotModule,
   ],
   controllers: [AppController],

@@ -1,29 +1,27 @@
 import { Injectable } from '@nestjs/common';
-import { Service } from 'src/abstractions';
-import { CreateCommentaryDto } from './dto/CreateCommentaryDto';
-import { ServiceOptions } from 'src/types';
-import { UserModel } from '../user';
 import { InjectModel } from '@nestjs/sequelize';
 import { CommentaryModel } from './commentary.model';
-
-export const commentaryServiceOptions: ServiceOptions = {
-  findAll: {
-    include: [UserModel],
-  },
-  findOne: {
-    include: [UserModel],
-  },
-  otherFind: {
-    include: [UserModel],
-  },
-};
+import { CreateCommentaryDto } from './dto/create-commentary.dto';
+import { NotFoundError } from 'rxjs';
 
 @Injectable()
-export class CommentaryService extends Service<CreateCommentaryDto> {
+export class CommentaryService {
   constructor(
     @InjectModel(CommentaryModel)
     private readonly commentaryRepository: typeof CommentaryModel,
-  ) {
-    super(commentaryRepository, commentaryServiceOptions);
+  ) {}
+
+  async create(dto: CreateCommentaryDto) {
+    try {
+      return await this.commentaryRepository.create(dto);
+    } catch (err) {
+      return new NotFoundError(
+        'Произошла ошибка при создании комментария. Возможно, вы пытаетесь отправить его на несуществующее видео.',
+      );
+    }
+  }
+
+  async findAll(): Promise<CommentaryModel[]> {
+    return await this.commentaryRepository.findAll();
   }
 }

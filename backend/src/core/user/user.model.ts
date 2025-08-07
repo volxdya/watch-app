@@ -9,14 +9,18 @@ import {
 } from 'sequelize-typescript';
 import { VideoModel } from '../video';
 import { CommentaryModel } from '../commentary/commentary.model';
-import { SubscriptionsModel } from '../subscriptions/subscriptions.model';
 
-interface IUser {
+interface User {
+  id: number;
   username: string;
+  avatar: string;
+  visibleUsername: string;
+  password: string;
+  description: string;
 }
 
 @Table({ tableName: 'users' })
-export class UserModel extends Model<Model, IUser> {
+export class UserModel extends Model<UserModel, User> {
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
@@ -60,11 +64,4 @@ export class UserModel extends Model<Model, IUser> {
 
   @HasMany(() => CommentaryModel)
   commentaries: CommentaryModel[];
-
-  @Column({ type: DataType.INTEGER })
-  @ForeignKey(() => SubscriptionsModel)
-  subscriptableId: number;
-
-  @BelongsTo(() => SubscriptionsModel)
-  subscriptable: SubscriptionsModel;
 }

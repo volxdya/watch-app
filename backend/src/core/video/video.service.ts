@@ -1,41 +1,47 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { Service } from 'src/abstractions';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
 import { VideoModel } from './video.model';
-import { CreateVideoDto } from './dto/CreateVideoDto';
 import { InjectModel } from '@nestjs/sequelize';
-import { UserModel } from '../user';
-import { ServiceOptions } from 'src/types';
 import { FilesService } from '../files/files.service';
 import { BotService } from '../bot/bot.service';
-
-export const videoServiceOptions: ServiceOptions = {
-  findAll: {
-    include: [UserModel],
-  },
-  findOne: {
-    include: [UserModel],
-  },
-  otherFind: {
-    include: null,
-  },
-};
+import { CreateVideoDto } from './dto/create-video.dto';
 
 @Injectable()
-export class VideoService extends Service<CreateVideoDto> {
+export class VideoService {
   constructor(
     @InjectModel(VideoModel)
     private readonly videoRepository: typeof VideoModel,
     private readonly filesService: FilesService,
     private readonly botService: BotService,
-  ) {
-    super(videoRepository, videoServiceOptions);
+  ) {}
+
+  private readonly logger = new Logger(VideoService.name);
+
+  async findOne(videoId: number) {
+    return await this.videoRepository.findOne({ where: { id: videoId } });
+  }
+
+  async findAll(): Promise<VideoModel[]> {
+    return await this.videoRepository.findAll();
+  }
+
+  async create(dto: CreateVideoDto): Promise<VideoModel> {
+    return await this.videoRepository.create(dto);
+  }
+
+  async deleteOne(videoId: number): Promise<void> {
+    await this.videoRepository.destroy({ where: { id: videoId } });
   }
 
   async uploadVideo(videoId: number, file: Express.Multer.File) {
-    const video = await this.getOne(videoId);
+    const video = await this.findOne(videoId);
     const videoPath: string = this.filesService.handleFileUpload(file).filePath;
 
-    // TODO: Убрать это в Guards
     if (video === null) {
       await this.filesService.deleteFile(videoPath);
       throw new HttpException("Video doesn't exists", HttpStatus.BAD_REQUEST);
@@ -47,36 +53,43 @@ export class VideoService extends Service<CreateVideoDto> {
 
     video.videoFile = videoPath;
 
-    await this.botService.notify({
-      videoTitle: video.title,
-      videoUrl:
-        'https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley',
-      videoUser: video.user.username,
-    });
-
-    return video;
-  }
-
-  async deleteVideo(videoId: number) {
-    const video = await this.getOne(videoId);
-
-    await this.delete(videoId);
-
-    if (video.videoFile !== null) {
-      await this.filesService.deleteFile(video.videoFile);
+    try {
+      await this.botService.notify({
+        videoTitle: video.title,
+        videoUrl:
+          'https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley',
+        videoUser: video.user.username,
+      });
+    } catch (err) {
+      this.logger.error('Видео в бота не пришло!');
     }
 
     return video;
   }
 
+  async deleteVideo(videoId: number) {
+    const video = await this.findOne(videoId);
+
+    await this.deleteOne(videoId);
+
+    if (video.videoFile !== null) {
+      await this.filesService.deleteFile(video.videoFile);
+      return video;
+    }
+  }
+
   async watch(videoId: number) {
-    const video = await this.getOne(videoId);
-    await video.update({
-      views: video.views + 1,
-    });
+    try {
+      const video = await this.findOne(videoId);
+      await video.update({
+        views: video.views + 1,
+      });
 
-    video.views = video.views + 1;
+      video.views = video.views + 1;
 
-    return video;
+      return video;
+    } catch (err) {
+      return new NotFoundException('Данного видео не существует');
+    }
   }
 }

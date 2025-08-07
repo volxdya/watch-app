@@ -11,7 +11,14 @@ import { UserModel } from '../user';
 import { CommentaryModel } from '../commentary/commentary.model';
 
 export interface VideoAttributes {
+  id: number;
+  userId: number;
   title: string;
+  user: UserModel;
+  views: number;
+  description: string;
+  videoFile: string;
+  commenatires: CommentaryModel[];
 }
 
 export interface VideoCreationAttributes extends VideoAttributes {}
@@ -60,7 +67,7 @@ export class VideoModel extends Model<
 
   @Column({
     type: DataType.INTEGER,
-    defaultValue: 0
+    defaultValue: 0,
   })
   views: number;
 }

@@ -12,7 +12,6 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 import { CommentaryModel } from 'src/core/commentary/commentary.model';
-import { SubscriptionsModel } from '../core/subscriptions/subscriptions.model';
 
 @Module({
   imports: [
@@ -22,13 +21,6 @@ import { SubscriptionsModel } from '../core/subscriptions/subscriptions.model';
     }),
     ServeStaticModule.forRoot(STATIC_CONFIG),
     ThrottlerModule.forRoot(THROTTLER_CONFIG),
-    GraphQLModule.forRoot<ApolloDriverConfig>({
-      driver: ApolloDriver,
-      playground: true,
-      autoSchemaFile: join(process.cwd(), './backend', '../schema.gql'),
-      sortSchema: true,
-      path: '/api/graphql',
-    }),
     SequelizeModule.forRoot({
       dialect: 'postgres',
       port: Number(process.env.POSTGRES_PORT),
@@ -37,7 +29,7 @@ import { SubscriptionsModel } from '../core/subscriptions/subscriptions.model';
       password: process.env.POSTGRES_PASSWORD,
       username: process.env.POSTGRES_USERNAME,
       autoLoadModels: true,
-      models: [UserModel, VideoModel, CommentaryModel, SubscriptionsModel],
+      models: [UserModel, VideoModel, CommentaryModel],
     }),
   ],
   providers: [

@@ -1,39 +1,41 @@
 import { Injectable } from '@nestjs/common';
-import { Service } from '../../abstractions';
 import { InjectModel } from '@nestjs/sequelize';
 import { UserModel } from './user.model';
-import { CreateUserDto } from './dto/CreateUserDto';
+import { CreateUserDto } from './dto/create-user.dto';
 import { FilesService } from '../files/files.service';
-import { ServiceOptions } from 'src/types';
-import { VideoModel } from '../video';
 import * as bcrypt from 'bcrypt';
-import { SubscriptionsModel } from '../subscriptions/subscriptions.model';
-import { SubscriptionsService } from '../subscriptions/subscriptions.service';
-
-export const userServiceOptions: ServiceOptions = {
-  findAll: {
-    include: [VideoModel, SubscriptionsModel],
-  },
-  findOne: {
-    include: [VideoModel],
-  },
-  otherFind: {
-    include: [VideoModel],
-  },
-};
+import { UpdateUserDTO } from './dto/update-user.dto';
 
 @Injectable()
-export class UserService extends Service<CreateUserDto> {
+export class UserService {
   constructor(
     @InjectModel(UserModel) private readonly userRepository: typeof UserModel,
     private readonly filesService: FilesService,
-    private readonly subscriptionService: SubscriptionsService,
-  ) {
-    super(userRepository, userServiceOptions);
+  ) {}
+
+  async create(dto: CreateUserDto): Promise<UserModel> {
+    const user: UserModel = await this.userRepository.create(dto);
+    return user;
   }
 
-  async register(dto: CreateUserDto) {
-    const user = await this.create(dto);
+  async findOne(userId: number): Promise<UserModel> {
+    return await this.userRepository.findOne({
+      where: { id: userId },
+    });
+  }
+
+  async findByUsername(username: string): Promise<UserModel> {
+    return await this.userRepository.findOne({
+      where: { username },
+    });
+  }
+
+  async findAll(): Promise<UserModel[]> {
+    return await this.userRepository.findAll();
+  }
+
+  async register(dto: CreateUserDto): Promise<UserModel> {
+    const user: UserModel = await this.create(dto);
     const hash: string = bcrypt.hashSync(user.password, 10);
 
     await user.update({
@@ -47,10 +49,14 @@ export class UserService extends Service<CreateUserDto> {
     return user;
   }
 
-  async uploadAvatar(file: Express.Multer.File, userId: number) {
-    const avatarPath = this.filesService.handleFileUpload(file).filePath;
+  async uploadAvatar(
+    file: Express.Multer.File,
+    userId: number,
+  ): Promise<UserModel> {
+    const avatarPath: string =
+      this.filesService.handleFileUpload(file).filePath;
 
-    const user = await this.getOne(userId);
+    const user: UserModel = await this.findOne(userId);
 
     if (user.avatar !== '') {
       await this.filesService.deleteFile(user.avatar);
@@ -65,11 +71,17 @@ export class UserService extends Service<CreateUserDto> {
     return user;
   }
 
-  async update(id: number, dto: object) {
-    const user = await this.getOne(id);
+  async update(id: number, dto: UpdateUserDTO): Promise<UserModel> {
+    const user: UserModel = await this.findOne(id);
+    const { avatar, visibleUsername, password, description } = dto;
 
-    await user.update(dto);
+    await user.update({
+      avatar: avatar,
+      visibleUsername: visibleUsername,
+      password: password,
+      description: description,
+    });
 
-    return await this.getOne(id);
+    return this.findOne(id);
   }
 }

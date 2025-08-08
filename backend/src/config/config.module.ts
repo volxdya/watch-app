@@ -8,9 +8,6 @@ import { VideoModel } from 'src/core/video/video.model';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { THROTTLER_CONFIG } from './throttler.config';
 import { APP_GUARD } from '@nestjs/core';
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { GraphQLModule } from '@nestjs/graphql';
-import { join } from 'path';
 import { CommentaryModel } from 'src/core/commentary/commentary.model';
 
 @Module({

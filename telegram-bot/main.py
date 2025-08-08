@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, Request
 from telegram import Update
 from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler
+import sqlite3
 
 load_dotenv()
 
@@ -13,14 +14,51 @@ TOKEN_BOT = getenv("TOKEN")
 BOT_PORT = int(getenv("PORT"))
 BOT_HOST=getenv("HOST")
 
+conn = sqlite3.connect("subscribers.db")
+cursor = conn.cursor()
+
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS subscribers (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER UNIQUE NOT NULL
+)
+""")
+conn.commit()
+
+def add_subscriber(user_id: int):
+    with sqlite3.connect("subscribers.db") as conn:
+        cursor = conn.cursor()
+        try:
+            cursor.execute("INSERT INTO subscribers (user_id) VALUES (?)", (user_id,))
+            conn.commit()
+        except sqlite3.IntegrityError:
+            print(f"user_id {user_id} уже существует.")
+
+def remove_subscriber(user_id: int):
+    with sqlite3.connect("subscribers.db") as conn:
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM subscribers WHERE user_id = ?", (user_id,))
+        
+        conn.commit()
+def get_all_subscribers():
+    with sqlite3.connect("subscribers.db") as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM subscribers")
+        return cursor.fetchall()
+
+def is_user_subscribed(user_id: int) -> bool:
+    with sqlite3.connect("subscribers.db") as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT 1 FROM subscribers WHERE user_id = ?", (user_id,))
+        return cursor.fetchone() is not None
+
+
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO
 )
 
 api_app = FastAPI()
-subscribers = set()
-subscribers.add(int(open('test-db.txt').readline()))
 
 telegram_app = ApplicationBuilder().token(TOKEN_BOT).build()
 
@@ -32,7 +70,7 @@ async def notify(request: Request):
     video_user = data.get("video_user")
     video_url = data.get("video_url")
 
-    for user_id in subscribers:
+    for _, user_id in get_all_subscribers():
         try:
             await telegram_app.bot.send_message(chat_id=user_id, text=f"Новое видео: {video_url}")
             await telegram_app.bot.send_message(chat_id=user_id, parse_mode="HTML", text=f'''
@@ -45,19 +83,19 @@ async def notify(request: Request):
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_chat.id
-    if user_id in subscribers:
-        await context.bot.send_message(chat_id=user_id, text=f"{update.effective_chat.first_name}, ты уже подписан на уведомления.")
-    else:
-        subscribers.add(user_id)
+    if not is_user_subscribed(user_id):
+        add_subscriber(user_id)
         await context.bot.send_message(chat_id=user_id, text=f"Привет, {update.effective_chat.first_name}! Ты теперь подписан на уведомления.")
+        return
+    await context.bot.send_message(chat_id=user_id, text=f"{update.effective_chat.first_name}, ты уже подписан на уведомления.")
 
 async def unsubscribe(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_chat.id
-    if user_id not in subscribers:
-        await context.bot.send_message(chat_id=user_id, text=f"{update.effective_chat.first_name}, ты уже отписан от уведомлений.")
-    else:
-        subscribers.remove(user_id)
+    if is_user_subscribed(user_id):
+        remove_subscriber(user_id)
         await context.bot.send_message(chat_id=user_id, text=f"{update.effective_chat.first_name}, ты успешно отписался от уведомлений. Чтобы   подписаться повторно просто пропишите /start")
+        return
+    await context.bot.send_message(chat_id=user_id, text=f"{update.effective_chat.first_name}, ты уже отписан от уведомлений.")
 
 start_handler = CommandHandler("start", start)
 unsubscribe_handler = CommandHandler("unsubscribe", unsubscribe)
@@ -71,10 +109,5 @@ def run_fastapi():
 if __name__ == '__main__':
     threading.Thread(target=run_fastapi).start()
     telegram_app.run_polling()
-    # people = get_people()
-    # if len(people) == 0:
-    #     create_people()
-    # people = get_people()
-
-    # for person in people:
-    #     print(f'{person.name} was born in {person.date_of_birth}')
+    subscribers = get_all_subscribers()
+conn.close()
